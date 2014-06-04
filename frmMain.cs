@@ -366,7 +366,7 @@ namespace LOIC
 					xxp = new XXPFlooder[Settings.NumThreads];
 					for (int a = 0; a < xxp.Length; a++)
 					{
-						xxp[a] = new XXPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.Protocol, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
+						xxp[a] = new XXPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.AttackType, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
 						xxp[a].Start();
 					}
 				}
