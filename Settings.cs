@@ -29,4 +29,11 @@
 		internal static bool NONE { get; set; }
 
 	}
+
+	public enum AttackTypes
+	{
+		TcpFlood,
+		UdpFlood,
+		HttpFlood
+	}
 }

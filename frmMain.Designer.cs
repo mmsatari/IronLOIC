@@ -36,9 +36,16 @@ namespace LOIC
 			this.label1 = new System.Windows.Forms.Label();
 			this.cmdTargetURL = new System.Windows.Forms.Button();
 			this.txtTargetURL = new System.Windows.Forms.TextBox();
+			this.txtPort = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.txtTarget = new System.Windows.Forms.TextBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.cboRandomSourceIpAndPort = new System.Windows.Forms.CheckBox();
+			this.tbSourcePort = new System.Windows.Forms.TextBox();
+			this.label30 = new System.Windows.Forms.Label();
+			this.tbSourceIP = new System.Windows.Forms.TextBox();
+			this.label29 = new System.Windows.Forms.Label();
 			this.chkAllowGzip = new System.Windows.Forms.CheckBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.chkAllowRandom = new System.Windows.Forms.CheckBox();
@@ -46,7 +53,6 @@ namespace LOIC
 			this.label9 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
 			this.label20 = new System.Windows.Forms.Label();
 			this.chkWaitReply = new System.Windows.Forms.CheckBox();
 			this.txtData = new System.Windows.Forms.TextBox();
@@ -54,10 +60,9 @@ namespace LOIC
 			this.txtTimeout = new System.Windows.Forms.TextBox();
 			this.txtThreads = new System.Windows.Forms.TextBox();
 			this.cbMethod = new System.Windows.Forms.ComboBox();
-			this.txtPort = new System.Windows.Forms.TextBox();
 			this.tbSpeed = new System.Windows.Forms.TrackBar();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.cmdAttack = new System.Windows.Forms.Button();
+			this.btnAttack = new System.Windows.Forms.Button();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.label19 = new System.Windows.Forms.Label();
 			this.lbFailed = new System.Windows.Forms.Label();
@@ -88,6 +93,14 @@ namespace LOIC
 			this.label27 = new System.Windows.Forms.Label();
 			this.pBanner = new System.Windows.Forms.PictureBox();
 			this.gbFlags = new System.Windows.Forms.GroupBox();
+			this.tbDestMac = new System.Windows.Forms.TextBox();
+			this.tbSourceMac = new System.Windows.Forms.TextBox();
+			this.label21 = new System.Windows.Forms.Label();
+			this.label28 = new System.Windows.Forms.Label();
+			this.tbIdNo = new System.Windows.Forms.TextBox();
+			this.tbAckNo = new System.Windows.Forms.TextBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
 			this.tbTimeToLive = new System.Windows.Forms.TextBox();
 			this.tbSeqNo = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
@@ -102,18 +115,8 @@ namespace LOIC
 			this.cbFin = new System.Windows.Forms.CheckBox();
 			this.cbAck = new System.Windows.Forms.CheckBox();
 			this.cbSyn = new System.Windows.Forms.CheckBox();
-			this.tbIdNo = new System.Windows.Forms.TextBox();
-			this.tbAckNo = new System.Windows.Forms.TextBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.tbDestMac = new System.Windows.Forms.TextBox();
-			this.tbSourceMac = new System.Windows.Forms.TextBox();
-			this.label21 = new System.Windows.Forms.Label();
-			this.label28 = new System.Windows.Forms.Label();
-			this.tbSourceIP = new System.Windows.Forms.TextBox();
-			this.label29 = new System.Windows.Forms.Label();
-			this.tbSourcePort = new System.Windows.Forms.TextBox();
-			this.label30 = new System.Windows.Forms.Label();
+			this.label31 = new System.Windows.Forms.Label();
+			this.cbAdapter = new System.Windows.Forms.ComboBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -135,7 +138,7 @@ namespace LOIC
 			this.groupBox1.Controls.Add(this.txtPort);
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.ForeColor = System.Drawing.Color.LightBlue;
-			this.groupBox1.Location = new System.Drawing.Point(212, 42);
+			this.groupBox1.Location = new System.Drawing.Point(212, 65);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(488, 75);
 			this.groupBox1.TabIndex = 1;
@@ -206,11 +209,34 @@ namespace LOIC
 			this.txtTargetURL.TabIndex = 1;
 			this.TTip.SetToolTip(this.txtTargetURL, "If you don\'t know your target\'s IP, enter a URL here and click \"Lock on\"");
 			// 
+			// txtPort
+			// 
+			this.txtPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtPort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.txtPort.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtPort.ForeColor = System.Drawing.Color.Azure;
+			this.txtPort.Location = new System.Drawing.Point(346, 48);
+			this.txtPort.Name = "txtPort";
+			this.txtPort.Size = new System.Drawing.Size(54, 20);
+			this.txtPort.TabIndex = 4;
+			this.txtPort.Text = "80";
+			this.txtPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.TTip.SetToolTip(this.txtPort, "What port to attack (regular websites use 80)");
+			// 
+			// label6
+			// 
+			this.label6.Location = new System.Drawing.Point(305, 50);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(44, 14);
+			this.label6.TabIndex = 20;
+			this.label6.Text = "Port";
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.txtTarget);
 			this.groupBox2.ForeColor = System.Drawing.Color.LightBlue;
-			this.groupBox2.Location = new System.Drawing.Point(212, 138);
+			this.groupBox2.Location = new System.Drawing.Point(212, 144);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(758, 96);
 			this.groupBox2.TabIndex = 3;
@@ -235,6 +261,7 @@ namespace LOIC
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.cboRandomSourceIpAndPort);
 			this.groupBox3.Controls.Add(this.tbSourcePort);
 			this.groupBox3.Controls.Add(this.label30);
 			this.groupBox3.Controls.Add(this.tbSourceIP);
@@ -255,12 +282,60 @@ namespace LOIC
 			this.groupBox3.Controls.Add(this.cbMethod);
 			this.groupBox3.Controls.Add(this.tbSpeed);
 			this.groupBox3.ForeColor = System.Drawing.Color.LightBlue;
-			this.groupBox3.Location = new System.Drawing.Point(212, 253);
+			this.groupBox3.Location = new System.Drawing.Point(212, 244);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(758, 168);
+			this.groupBox3.Size = new System.Drawing.Size(758, 181);
 			this.groupBox3.TabIndex = 4;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "2. Attack options";
+			// 
+			// cboRandomSourceIpAndPort
+			// 
+			this.cboRandomSourceIpAndPort.Checked = true;
+			this.cboRandomSourceIpAndPort.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cboRandomSourceIpAndPort.Location = new System.Drawing.Point(253, 42);
+			this.cboRandomSourceIpAndPort.Name = "cboRandomSourceIpAndPort";
+			this.cboRandomSourceIpAndPort.Size = new System.Drawing.Size(72, 18);
+			this.cboRandomSourceIpAndPort.TabIndex = 36;
+			this.cboRandomSourceIpAndPort.Text = "Random";
+			this.TTip.SetToolTip(this.cboRandomSourceIpAndPort, "Enable Gzip support for HTTP method");
+			// 
+			// tbSourcePort
+			// 
+			this.tbSourcePort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.tbSourcePort.ForeColor = System.Drawing.Color.Azure;
+			this.tbSourcePort.Location = new System.Drawing.Point(189, 42);
+			this.tbSourcePort.Name = "tbSourcePort";
+			this.tbSourcePort.Size = new System.Drawing.Size(52, 20);
+			this.tbSourcePort.TabIndex = 35;
+			// 
+			// label30
+			// 
+			this.label30.AutoSize = true;
+			this.label30.Location = new System.Drawing.Point(186, 25);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(61, 14);
+			this.label30.TabIndex = 34;
+			this.label30.Text = "SourcePort";
+			// 
+			// tbSourceIP
+			// 
+			this.tbSourceIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.tbSourceIP.ForeColor = System.Drawing.Color.Azure;
+			this.tbSourceIP.Location = new System.Drawing.Point(9, 42);
+			this.tbSourceIP.Multiline = true;
+			this.tbSourceIP.Name = "tbSourceIP";
+			this.tbSourceIP.Size = new System.Drawing.Size(165, 20);
+			this.tbSourceIP.TabIndex = 32;
+			// 
+			// label29
+			// 
+			this.label29.AutoSize = true;
+			this.label29.Location = new System.Drawing.Point(59, 25);
+			this.label29.Name = "label29";
+			this.label29.Size = new System.Drawing.Size(53, 14);
+			this.label29.TabIndex = 30;
+			this.label29.Text = "Source IP";
 			// 
 			// chkAllowGzip
 			// 
@@ -275,7 +350,7 @@ namespace LOIC
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(113, 53);
+			this.label18.Location = new System.Drawing.Point(113, 65);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(124, 16);
 			this.label18.TabIndex = 25;
@@ -285,7 +360,7 @@ namespace LOIC
 			// chkAllowRandom
 			// 
 			this.chkAllowRandom.AutoSize = true;
-			this.chkAllowRandom.Location = new System.Drawing.Point(62, 142);
+			this.chkAllowRandom.Location = new System.Drawing.Point(62, 154);
 			this.chkAllowRandom.Name = "chkAllowRandom";
 			this.chkAllowRandom.Size = new System.Drawing.Size(255, 18);
 			this.chkAllowRandom.TabIndex = 28;
@@ -295,7 +370,7 @@ namespace LOIC
 			// 
 			// label17
 			// 
-			this.label17.Location = new System.Drawing.Point(133, 98);
+			this.label17.Location = new System.Drawing.Point(133, 110);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(89, 17);
 			this.label17.TabIndex = 24;
@@ -322,21 +397,12 @@ namespace LOIC
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(370, 107);
+			this.label4.Location = new System.Drawing.Point(433, 108);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(75, 15);
 			this.label4.TabIndex = 21;
 			this.label4.Text = "Method";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label6
-			// 
-			this.label6.Location = new System.Drawing.Point(295, 50);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(54, 15);
-			this.label6.TabIndex = 20;
-			this.label6.Text = "Port";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label20
 			// 
@@ -366,7 +432,7 @@ namespace LOIC
 			this.txtData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtData.ForeColor = System.Drawing.Color.Azure;
-			this.txtData.Location = new System.Drawing.Point(8, 71);
+			this.txtData.Location = new System.Drawing.Point(8, 83);
 			this.txtData.Name = "txtData";
 			this.txtData.Size = new System.Drawing.Size(333, 20);
 			this.txtData.TabIndex = 3;
@@ -380,7 +446,7 @@ namespace LOIC
 			this.txtSubsite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtSubsite.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtSubsite.ForeColor = System.Drawing.Color.Azure;
-			this.txtSubsite.Location = new System.Drawing.Point(8, 117);
+			this.txtSubsite.Location = new System.Drawing.Point(8, 129);
 			this.txtSubsite.Name = "txtSubsite";
 			this.txtSubsite.Size = new System.Drawing.Size(333, 20);
 			this.txtSubsite.TabIndex = 2;
@@ -427,61 +493,47 @@ namespace LOIC
             "TCP",
             "UDP",
             "HTTP"});
-			this.cbMethod.Location = new System.Drawing.Point(370, 82);
+			this.cbMethod.Location = new System.Drawing.Point(430, 83);
 			this.cbMethod.Name = "cbMethod";
 			this.cbMethod.Size = new System.Drawing.Size(75, 22);
 			this.cbMethod.TabIndex = 5;
 			this.cbMethod.Text = "TCP";
 			this.TTip.SetToolTip(this.cbMethod, "What type of attack to launch");
 			// 
-			// txtPort
-			// 
-			this.txtPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.txtPort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.txtPort.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtPort.ForeColor = System.Drawing.Color.Azure;
-			this.txtPort.Location = new System.Drawing.Point(346, 48);
-			this.txtPort.Name = "txtPort";
-			this.txtPort.Size = new System.Drawing.Size(54, 20);
-			this.txtPort.TabIndex = 4;
-			this.txtPort.Text = "80";
-			this.txtPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.TTip.SetToolTip(this.txtPort, "What port to attack (regular websites use 80)");
-			// 
 			// tbSpeed
 			// 
-			this.tbSpeed.Location = new System.Drawing.Point(370, 26);
+			this.tbSpeed.Location = new System.Drawing.Point(410, 26);
 			this.tbSpeed.Maximum = 20;
 			this.tbSpeed.Name = "tbSpeed";
-			this.tbSpeed.Size = new System.Drawing.Size(374, 45);
+			this.tbSpeed.Size = new System.Drawing.Size(334, 45);
 			this.tbSpeed.TabIndex = 8;
 			this.TTip.SetToolTip(this.tbSpeed, "Use this to increase or reduce attack speed");
 			this.tbSpeed.ValueChanged += new System.EventHandler(this.tbSpeed_ValueChanged);
 			// 
 			// groupBox4
 			// 
-			this.groupBox4.Controls.Add(this.cmdAttack);
+			this.groupBox4.Controls.Add(this.btnAttack);
 			this.groupBox4.ForeColor = System.Drawing.Color.LightBlue;
-			this.groupBox4.Location = new System.Drawing.Point(712, 42);
+			this.groupBox4.Location = new System.Drawing.Point(712, 65);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(258, 75);
 			this.groupBox4.TabIndex = 2;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "3. Ready?";
 			// 
-			// cmdAttack
+			// btnAttack
 			// 
-			this.cmdAttack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(64)))), ((int)(((byte)(96)))));
-			this.cmdAttack.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cmdAttack.ForeColor = System.Drawing.Color.Azure;
-			this.cmdAttack.Location = new System.Drawing.Point(6, 19);
-			this.cmdAttack.Name = "cmdAttack";
-			this.cmdAttack.Size = new System.Drawing.Size(246, 50);
-			this.cmdAttack.TabIndex = 1;
-			this.cmdAttack.Text = "IMMA CHARGIN MAH LAZER";
-			this.TTip.SetToolTip(this.cmdAttack, "I sincerely hope you can guess what this button does.");
-			this.cmdAttack.UseVisualStyleBackColor = false;
-			this.cmdAttack.Click += new System.EventHandler(this.cmdAttack_Click);
+			this.btnAttack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(64)))), ((int)(((byte)(96)))));
+			this.btnAttack.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnAttack.ForeColor = System.Drawing.Color.Azure;
+			this.btnAttack.Location = new System.Drawing.Point(6, 19);
+			this.btnAttack.Name = "btnAttack";
+			this.btnAttack.Size = new System.Drawing.Size(246, 50);
+			this.btnAttack.TabIndex = 1;
+			this.btnAttack.Text = "IMMA CHARGIN MAH LAZER";
+			this.TTip.SetToolTip(this.btnAttack, "I sincerely hope you can guess what this button does.");
+			this.btnAttack.UseVisualStyleBackColor = false;
+			this.btnAttack.Click += new System.EventHandler(this.cmdAttack_Click);
 			// 
 			// groupBox5
 			// 
@@ -787,13 +839,89 @@ namespace LOIC
 			this.gbFlags.Controls.Add(this.cbFin);
 			this.gbFlags.Controls.Add(this.cbAck);
 			this.gbFlags.Controls.Add(this.cbSyn);
-			this.gbFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.gbFlags.Location = new System.Drawing.Point(212, 427);
 			this.gbFlags.Name = "gbFlags";
 			this.gbFlags.Size = new System.Drawing.Size(758, 101);
 			this.gbFlags.TabIndex = 24;
 			this.gbFlags.TabStop = false;
-			this.gbFlags.Text = "Flags";
+			this.gbFlags.Text = "3.Flags";
+			// 
+			// tbDestMac
+			// 
+			this.tbDestMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.tbDestMac.ForeColor = System.Drawing.Color.Azure;
+			this.tbDestMac.Location = new System.Drawing.Point(580, 75);
+			this.tbDestMac.Name = "tbDestMac";
+			this.tbDestMac.Size = new System.Drawing.Size(161, 20);
+			this.tbDestMac.TabIndex = 20;
+			this.tbDestMac.Text = "FF:FF:FF:FF:FF:FF";
+			// 
+			// tbSourceMac
+			// 
+			this.tbSourceMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.tbSourceMac.ForeColor = System.Drawing.Color.Azure;
+			this.tbSourceMac.Location = new System.Drawing.Point(580, 32);
+			this.tbSourceMac.Name = "tbSourceMac";
+			this.tbSourceMac.Size = new System.Drawing.Size(158, 20);
+			this.tbSourceMac.TabIndex = 21;
+			this.tbSourceMac.Text = "B8:AC:6F:3C:9C:93";
+			// 
+			// label21
+			// 
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(580, 59);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(119, 14);
+			this.label21.TabIndex = 18;
+			this.label21.Text = "Dest HW MAC Address";
+			// 
+			// label28
+			// 
+			this.label28.AutoSize = true;
+			this.label28.Location = new System.Drawing.Point(580, 16);
+			this.label28.Name = "label28";
+			this.label28.Size = new System.Drawing.Size(132, 14);
+			this.label28.TabIndex = 19;
+			this.label28.Text = "Source HW MAC Address";
+			// 
+			// tbIdNo
+			// 
+			this.tbIdNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.tbIdNo.ForeColor = System.Drawing.Color.Azure;
+			this.tbIdNo.Location = new System.Drawing.Point(271, 68);
+			this.tbIdNo.Name = "tbIdNo";
+			this.tbIdNo.Size = new System.Drawing.Size(74, 20);
+			this.tbIdNo.TabIndex = 16;
+			this.tbIdNo.Text = "100";
+			// 
+			// tbAckNo
+			// 
+			this.tbAckNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.tbAckNo.Enabled = false;
+			this.tbAckNo.ForeColor = System.Drawing.Color.Azure;
+			this.tbAckNo.Location = new System.Drawing.Point(189, 68);
+			this.tbAckNo.Name = "tbAckNo";
+			this.tbAckNo.Size = new System.Drawing.Size(74, 20);
+			this.tbAckNo.TabIndex = 17;
+			this.tbAckNo.Text = "0";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(268, 50);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(56, 14);
+			this.label10.TabIndex = 14;
+			this.label10.Text = "ID Number";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(186, 49);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(66, 14);
+			this.label11.TabIndex = 15;
+			this.label11.Text = "Ack Number";
 			// 
 			// tbTimeToLive
 			// 
@@ -820,7 +948,7 @@ namespace LOIC
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(98, 52);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(81, 13);
+			this.label3.Size = new System.Drawing.Size(66, 14);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "Time To Live";
 			// 
@@ -829,7 +957,7 @@ namespace LOIC
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(16, 52);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(76, 13);
+			this.label5.Size = new System.Drawing.Size(66, 14);
 			this.label5.TabIndex = 11;
 			this.label5.Text = "Seq Number";
 			// 
@@ -943,121 +1071,23 @@ namespace LOIC
 			this.cbSyn.Text = "SYN";
 			this.cbSyn.UseVisualStyleBackColor = true;
 			// 
-			// tbIdNo
+			// label31
 			// 
-			this.tbIdNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbIdNo.ForeColor = System.Drawing.Color.Azure;
-			this.tbIdNo.Location = new System.Drawing.Point(271, 68);
-			this.tbIdNo.Name = "tbIdNo";
-			this.tbIdNo.Size = new System.Drawing.Size(74, 20);
-			this.tbIdNo.TabIndex = 16;
-			this.tbIdNo.Text = "100";
+			this.label31.AutoSize = true;
+			this.label31.Location = new System.Drawing.Point(218, 41);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(78, 14);
+			this.label31.TabIndex = 26;
+			this.label31.Text = "Select Adapter";
 			// 
-			// tbAckNo
+			// cbAdapter
 			// 
-			this.tbAckNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbAckNo.Enabled = false;
-			this.tbAckNo.ForeColor = System.Drawing.Color.Azure;
-			this.tbAckNo.Location = new System.Drawing.Point(189, 68);
-			this.tbAckNo.Name = "tbAckNo";
-			this.tbAckNo.Size = new System.Drawing.Size(74, 20);
-			this.tbAckNo.TabIndex = 17;
-			this.tbAckNo.Text = "0";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(268, 50);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(67, 13);
-			this.label10.TabIndex = 14;
-			this.label10.Text = "ID Number";
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(186, 49);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(76, 13);
-			this.label11.TabIndex = 15;
-			this.label11.Text = "Ack Number";
-			// 
-			// tbDestMac
-			// 
-			this.tbDestMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbDestMac.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tbDestMac.ForeColor = System.Drawing.Color.Azure;
-			this.tbDestMac.Location = new System.Drawing.Point(580, 75);
-			this.tbDestMac.Name = "tbDestMac";
-			this.tbDestMac.Size = new System.Drawing.Size(161, 20);
-			this.tbDestMac.TabIndex = 20;
-			this.tbDestMac.Text = "FF:FF:FF:FF:FF:FF";
-			// 
-			// tbSourceMac
-			// 
-			this.tbSourceMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSourceMac.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tbSourceMac.ForeColor = System.Drawing.Color.Azure;
-			this.tbSourceMac.Location = new System.Drawing.Point(583, 32);
-			this.tbSourceMac.Name = "tbSourceMac";
-			this.tbSourceMac.Size = new System.Drawing.Size(158, 20);
-			this.tbSourceMac.TabIndex = 21;
-			this.tbSourceMac.Text = "B8:AC:6F:3C:9C:93";
-			// 
-			// label21
-			// 
-			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(577, 59);
-			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(137, 13);
-			this.label21.TabIndex = 18;
-			this.label21.Text = "Dest HW MAC Address";
-			// 
-			// label28
-			// 
-			this.label28.AutoSize = true;
-			this.label28.Location = new System.Drawing.Point(580, 16);
-			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(151, 13);
-			this.label28.TabIndex = 19;
-			this.label28.Text = "Source HW MAC Address";
-			// 
-			// tbSourceIP
-			// 
-			this.tbSourceIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSourceIP.ForeColor = System.Drawing.Color.Azure;
-			this.tbSourceIP.Location = new System.Drawing.Point(92, 26);
-			this.tbSourceIP.Multiline = true;
-			this.tbSourceIP.Name = "tbSourceIP";
-			this.tbSourceIP.Size = new System.Drawing.Size(249, 20);
-			this.tbSourceIP.TabIndex = 32;
-			// 
-			// label29
-			// 
-			this.label29.AutoSize = true;
-			this.label29.Location = new System.Drawing.Point(13, 32);
-			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(53, 14);
-			this.label29.TabIndex = 30;
-			this.label29.Text = "Source IP";
-			// 
-			// tbSourcePort
-			// 
-			this.tbSourcePort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSourcePort.ForeColor = System.Drawing.Color.Azure;
-			this.tbSourcePort.Location = new System.Drawing.Point(451, 82);
-			this.tbSourcePort.Name = "tbSourcePort";
-			this.tbSourcePort.Size = new System.Drawing.Size(52, 20);
-			this.tbSourcePort.TabIndex = 35;
-			// 
-			// label30
-			// 
-			this.label30.AutoSize = true;
-			this.label30.Location = new System.Drawing.Point(447, 108);
-			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(61, 14);
-			this.label30.TabIndex = 34;
-			this.label30.Text = "SourcePort";
+			this.cbAdapter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.cbAdapter.FormattingEnabled = true;
+			this.cbAdapter.Location = new System.Drawing.Point(315, 38);
+			this.cbAdapter.Name = "cbAdapter";
+			this.cbAdapter.Size = new System.Drawing.Size(654, 22);
+			this.cbAdapter.TabIndex = 25;
 			// 
 			// frmMain
 			// 
@@ -1065,6 +1095,8 @@ namespace LOIC
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
 			this.ClientSize = new System.Drawing.Size(982, 614);
+			this.Controls.Add(this.label31);
+			this.Controls.Add(this.cbAdapter);
 			this.Controls.Add(this.gbFlags);
 			this.Controls.Add(this.label27);
 			this.Controls.Add(this.label26);
@@ -1123,7 +1155,7 @@ namespace LOIC
 		private System.Windows.Forms.ComboBox cbMethod;
 		private System.Windows.Forms.TextBox txtTimeout;
 		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.Button cmdAttack;
+		private System.Windows.Forms.Button btnAttack;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.Label label22;
 		private System.Windows.Forms.Label label23;
@@ -1193,5 +1225,8 @@ namespace LOIC
 		private System.Windows.Forms.Label label30;
 		private System.Windows.Forms.TextBox tbSourceIP;
 		private System.Windows.Forms.Label label29;
+		private System.Windows.Forms.CheckBox cboRandomSourceIpAndPort;
+		private System.Windows.Forms.Label label31;
+		private System.Windows.Forms.ComboBox cbAdapter;
 	}
 }
