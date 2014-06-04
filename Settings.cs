@@ -1,4 +1,6 @@
-﻿namespace LOIC {
+﻿using PcapDotNet.Core;
+
+namespace LOIC {
 	
 	
 	// This class allows you to handle specific events on the settings class:
@@ -17,6 +19,7 @@
 			//
 		}
 
+		// flags
 		internal static bool SYN { get; set; }
 		internal static bool ACK { get; set; }
 		internal static bool FIN { get; set; }
@@ -27,6 +30,14 @@
 		internal static bool ENC { get; set; }
 		internal static bool NS { get; set; }
 		internal static bool NONE { get; set; }
+		
+		// target 
+		public static string TargetHost, TargetIp, Method, Payload, RelativePath;
+		public static int TargetPort, NumThreads, Delay, Timeout;
+		public static bool IntShowStats;
+		
+		public static PacketDevice SelectedDevice;
+		public static AttackTypes AttackType;
 
 	}
 

