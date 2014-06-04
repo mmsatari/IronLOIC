@@ -32,7 +32,7 @@ namespace LOIC {
 		internal static bool NONE { get; set; }
 		
 		// target 
-		public static string TargetHost, TargetIp, Method, Payload, RelativePath;
+		public static string TargetHost, TargetIp, Payload, RelativePath;
 		public static int TargetPort, NumThreads, Delay, Timeout;
 		public static bool IntShowStats;
 		
