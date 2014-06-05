@@ -523,7 +523,7 @@ namespace LOIC
 					Packet packet = CreatePacket();
 					for (int a = 0; a < tcpFlooder.Length; a++)
 					{
-						tcpFlooder[a] = new TCPFlooder(packet,Settings.SelectedDevice,Settings.Delay);
+						tcpFlooder[a] = new TCPFlooder(packet, Settings.SelectedDevice, Settings.Delay);
 						tcpFlooder[a].Start();
 					}
 				}
@@ -577,11 +577,15 @@ namespace LOIC
 
 		private void UpdateSettings()
 		{
+
 			// attack type
 			string method = cbMethod.Text;
 			if (String.Equals(method, "TCP"))
 			{
 				Settings.AttackType = AttackTypes.TcpFlood;
+				IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
+				Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
+
 				//Settings.Protocol = 1;
 			}
 			if (String.Equals(method, "UDP"))
@@ -595,7 +599,6 @@ namespace LOIC
 				//Settings.Protocol = 3;
 			}
 
-			
 			// target
 			try
 			{
@@ -669,7 +672,7 @@ namespace LOIC
 			Settings.RelativePath = txtSubsite.Text;
 			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
 				throw new Exception("You have to enter a subsite (for example \"/\")");
-			
+
 		}
 
 		private Packet CreatePacket()
@@ -690,7 +693,7 @@ namespace LOIC
 				Settings.WindowNumber
 				);
 		}
-		
+
 		private void LockOnIP()
 		{
 			if (txtTargetIP.Text.Length == 0)
@@ -701,7 +704,7 @@ namespace LOIC
 				return;
 			}
 			Settings.TargetHost = txtTarget.Text = txtTargetIP.Text;
-			
+
 		}
 
 		private void LockOnURL()
@@ -758,14 +761,7 @@ namespace LOIC
 
 		private void cmdAttack_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				Attack(true, false);
-			}
-			catch (Exception exception)
-			{
-				MessageBox.Show(exception.Message,"ERRRRRRRrrrrrror");
-			}
+			Attack(true, false);
 		}
 
 		private void tShowStats_Tick(object sender, EventArgs e)
