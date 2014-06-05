@@ -557,11 +557,11 @@ namespace LOIC
 						tcpFlooder[a].IsFlooding = false;
 					}
 				}
-				else if (tcpFlooder != null)
+				if (udpFlooder != null)
 				{
-					for (int a = 0; a < tcpFlooder.Length; a++)
+					for (int a = 0; a < udpFlooder.Length; a++)
 					{
-						tcpFlooder[a].IsFlooding = false;
+						udpFlooder[a].IsFlooding = false;
 					}
 				}
 				if (httpFlooder != null)
@@ -579,7 +579,7 @@ namespace LOIC
 		{
 			// set interface
 			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
-			if (cbAdapter == null) throw new Exception("No Adapter Selected!");
+			if (cbAdapter.SelectedItem == null) throw new Exception("No Adapter Selected!");
 			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
 
 			// attack type
@@ -683,7 +683,7 @@ namespace LOIC
 				Settings.TargetIP,
 				Settings.SourcePort,
 				Settings.TargetPort,
-				Flags,
+				flags,
 				Settings.Payload,
 				Settings.SourceMac,
 				Settings.DestinationMac,
@@ -769,8 +769,7 @@ namespace LOIC
 		{
 			if (Settings.IntShowStats) return; Settings.IntShowStats = true;
 
-			bool isFlooding = false;
-			if (btnAttack.Text == "Stop for now") isFlooding = true;
+			bool isFlooding = btnAttack.Text == "Stop for now";
 			if (Settings.AttackType == AttackTypes.UdpFlood)
 			{
 				int iFloodCount = 0;
@@ -878,6 +877,12 @@ namespace LOIC
 		private void cbAck_CheckedChanged(object sender, EventArgs e)
 		{
 			txtAckNo.Enabled = cbAck.Checked;
+		}
+
+		private void cbRandomSourceIpAndPort_CheckedChanged(object sender, EventArgs e)
+		{
+			txtSourcePort.Enabled = txtSourceIP.Enabled = cbRandomSourceIpAndPort.Checked;
+
 		}
 	}
 }

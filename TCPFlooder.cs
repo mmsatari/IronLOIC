@@ -1,15 +1,11 @@
-﻿using PcapDotNet.Base;
-using PcapDotNet.Core;
+﻿using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.Ethernet;
 using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
 using System;
 using System.ComponentModel;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using AddressFamily = System.Net.Sockets.AddressFamily;
 
 namespace LOIC
 {
@@ -95,25 +91,25 @@ namespace LOIC
 			tcpLayer.SequenceNumber = sequenceNumber;
 			tcpLayer.AcknowledgmentNumber = acknowledgmentNumber;
 			if (flags.SYN)
-				tcpLayer.ControlBits = TcpControlBits.Synchronize;
+				tcpLayer.ControlBits ^= TcpControlBits.Synchronize;
 			if (flags.ACK)
-				tcpLayer.ControlBits = TcpControlBits.Acknowledgment;
+				tcpLayer.ControlBits ^= TcpControlBits.Acknowledgment;
 			if (flags.FIN)
-				tcpLayer.ControlBits = TcpControlBits.Fin;
+				tcpLayer.ControlBits ^= TcpControlBits.Fin;
 			if (flags.RST)
-				tcpLayer.ControlBits = TcpControlBits.Reset;
+				tcpLayer.ControlBits ^= TcpControlBits.Reset;
 			if (flags.URG)
-				tcpLayer.ControlBits = TcpControlBits.Urgent;
+				tcpLayer.ControlBits ^= TcpControlBits.Urgent;
 			if (flags.PSH)
-				tcpLayer.ControlBits = TcpControlBits.Push;
+				tcpLayer.ControlBits ^= TcpControlBits.Push;
 			if (flags.CWR)
-				tcpLayer.ControlBits = TcpControlBits.CongestionWindowReduced;
+				tcpLayer.ControlBits ^= TcpControlBits.CongestionWindowReduced;
 			if (flags.ENC)
-				tcpLayer.ControlBits = TcpControlBits.ExplicitCongestionNotificationEcho;
+				tcpLayer.ControlBits ^= TcpControlBits.ExplicitCongestionNotificationEcho;
 			if (flags.NS)
-				tcpLayer.ControlBits = TcpControlBits.NonceSum; // not a flag, rather a tcp header bit set
+				tcpLayer.ControlBits ^= TcpControlBits.NonceSum; // not a flag, rather a tcp header bit set
 			if (flags.NONE)
-				tcpLayer.ControlBits = TcpControlBits.None;
+				tcpLayer.ControlBits ^= TcpControlBits.None;
 
 			tcpLayer.Window = window;
 			tcpLayer.UrgentPointer = 0;

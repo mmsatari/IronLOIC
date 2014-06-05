@@ -292,14 +292,13 @@ namespace LOIC
 			// 
 			// cbRandomSourceIpAndPort
 			// 
-			this.cbRandomSourceIpAndPort.Checked = true;
-			this.cbRandomSourceIpAndPort.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbRandomSourceIpAndPort.Location = new System.Drawing.Point(253, 42);
 			this.cbRandomSourceIpAndPort.Name = "cbRandomSourceIpAndPort";
 			this.cbRandomSourceIpAndPort.Size = new System.Drawing.Size(72, 18);
 			this.cbRandomSourceIpAndPort.TabIndex = 36;
 			this.cbRandomSourceIpAndPort.Text = "Random";
 			this.TTip.SetToolTip(this.cbRandomSourceIpAndPort, "Enable Gzip support for HTTP method");
+			this.cbRandomSourceIpAndPort.CheckedChanged += new System.EventHandler(this.cbRandomSourceIpAndPort_CheckedChanged);
 			// 
 			// txtSourcePort
 			// 
