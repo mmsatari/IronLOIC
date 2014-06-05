@@ -21,6 +21,7 @@ namespace LOIC
 		{
 			this.Delay = delay;
 			this.Packet = packet;
+			if (SelectedDevice == null) throw new Exception("Select an adapter!");
 			this.SelectedDevice = selectedDevice;
 		}
 

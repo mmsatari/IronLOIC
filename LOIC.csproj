@@ -34,7 +34,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,19 +55,20 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PacketDotNet">
-      <HintPath>3rdpartylib\PacketDotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="PcapDotNet.Base">
+    <Reference Include="PcapDotNet.Base, Version=0.10.0.20588, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>3rdpartylib\PcapDotNet.Base.dll</HintPath>
     </Reference>
-    <Reference Include="PcapDotNet.Core">
+    <Reference Include="PcapDotNet.Core, Version=0.10.0.20632, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>3rdpartylib\PcapDotNet.Core.dll</HintPath>
     </Reference>
-    <Reference Include="PcapDotNet.Core.Extensions">
+    <Reference Include="PcapDotNet.Core.Extensions, Version=0.10.0.20638, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>3rdpartylib\PcapDotNet.Core.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="PcapDotNet.Packets">
+    <Reference Include="PcapDotNet.Packets, Version=0.10.0.20603, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>3rdpartylib\PcapDotNet.Packets.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -122,6 +124,10 @@
     <ProjectReference Include="IRC\IRC.csproj">
       <Project>{13896B76-B96B-48AC-9DC7-09982ECE3715}</Project>
       <Name>IRC</Name>
+    </ProjectReference>
+    <ProjectReference Include="Packet.Net\PacketDotNet\PacketDotNet.csproj">
+      <Project>{55abba4c-aaf9-4726-a592-0c92436cec92}</Project>
+      <Name>PacketDotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

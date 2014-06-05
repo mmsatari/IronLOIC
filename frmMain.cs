@@ -577,11 +577,6 @@ namespace LOIC
 
 		private void UpdateSettings()
 		{
-			// set interface
-			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
-			if (cbAdapter.SelectedItem == null) throw new Exception("No Adapter Selected!");
-			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
-
 			// attack type
 			string method = cbMethod.Text;
 			if (String.Equals(method, "TCP"))
@@ -623,9 +618,11 @@ namespace LOIC
 
 			try
 			{
-				Settings.TargetIP = txtTarget.Text;
+				Settings.TargetIP = txtTargetIP.Text;
 				Settings.SourceIP = txtSourceIP.Text;
-				if (String.IsNullOrEmpty(Settings.TargetIP) || String.Equals(Settings.TargetIP, "N O N E !"))
+				LockOnIP();
+				if (String.IsNullOrEmpty(Settings.TargetIP) || String.Equals(Settings.TargetIP, "N O N E !") ||
+					String.IsNullOrEmpty(Settings.SourceIP))
 					throw new Exception("Fill in target or source IP.");
 			}
 			catch
@@ -672,7 +669,6 @@ namespace LOIC
 			Settings.RelativePath = txtSubsite.Text;
 			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
 				throw new Exception("You have to enter a subsite (for example \"/\")");
-
 			
 		}
 
@@ -704,8 +700,8 @@ namespace LOIC
 				MessageBox.Show("I think you forgot the IP.", "What the shit.");
 				return;
 			}
-			txtTarget.Text = txtTargetIP.Text;
-			Settings.TargetHost = txtTargetIP.Text;
+			Settings.TargetHost = txtTarget.Text = txtTargetIP.Text;
+			
 		}
 
 		private void LockOnURL()
@@ -762,7 +758,14 @@ namespace LOIC
 
 		private void cmdAttack_Click(object sender, EventArgs e)
 		{
-			Attack(true, false);
+			try
+			{
+				Attack(true, false);
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message,"ERRRRRRRrrrrrror");
+			}
 		}
 
 		private void tShowStats_Tick(object sender, EventArgs e)
@@ -881,7 +884,15 @@ namespace LOIC
 
 		private void cbRandomSourceIpAndPort_CheckedChanged(object sender, EventArgs e)
 		{
-			txtSourcePort.Enabled = txtSourceIP.Enabled = cbRandomSourceIpAndPort.Checked;
+			txtSourcePort.Enabled = txtSourceIP.Enabled = !cbRandomSourceIpAndPort.Checked;
+
+		}
+
+		private void cbAdapter_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// set interface
+			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
+			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
 
 		}
 	}

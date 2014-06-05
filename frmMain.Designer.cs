@@ -117,6 +117,8 @@ namespace LOIC
 			this.cbSyn = new System.Windows.Forms.CheckBox();
 			this.label31 = new System.Windows.Forms.Label();
 			this.cbAdapter = new System.Windows.Forms.ComboBox();
+			this.txtStatusMessage = new System.Windows.Forms.Label();
+			this.label32 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -539,6 +541,8 @@ namespace LOIC
 			// 
 			// groupBox5
 			// 
+			this.groupBox5.Controls.Add(this.label32);
+			this.groupBox5.Controls.Add(this.txtStatusMessage);
 			this.groupBox5.Controls.Add(this.label19);
 			this.groupBox5.Controls.Add(this.lbFailed);
 			this.groupBox5.Controls.Add(this.lbRequested);
@@ -557,7 +561,7 @@ namespace LOIC
 			this.groupBox5.ForeColor = System.Drawing.Color.LightBlue;
 			this.groupBox5.Location = new System.Drawing.Point(212, 534);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(758, 68);
+			this.groupBox5.Size = new System.Drawing.Size(758, 91);
 			this.groupBox5.TabIndex = 5;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Attack status";
@@ -1093,13 +1097,30 @@ namespace LOIC
 			this.cbAdapter.Name = "cbAdapter";
 			this.cbAdapter.Size = new System.Drawing.Size(654, 22);
 			this.cbAdapter.TabIndex = 25;
+			this.cbAdapter.SelectedIndexChanged += new System.EventHandler(this.cbAdapter_SelectedIndexChanged);
+			// 
+			// txtStatusMessage
+			// 
+			this.txtStatusMessage.Location = new System.Drawing.Point(70, 67);
+			this.txtStatusMessage.Name = "txtStatusMessage";
+			this.txtStatusMessage.Size = new System.Drawing.Size(679, 21);
+			this.txtStatusMessage.TabIndex = 26;
+			// 
+			// label32
+			// 
+			this.label32.Location = new System.Drawing.Point(5, 64);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(59, 24);
+			this.label32.TabIndex = 27;
+			this.label32.Text = "Status:";
+			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
-			this.ClientSize = new System.Drawing.Size(982, 614);
+			this.ClientSize = new System.Drawing.Size(982, 637);
 			this.Controls.Add(this.label31);
 			this.Controls.Add(this.cbAdapter);
 			this.Controls.Add(this.gbFlags);
@@ -1233,5 +1254,7 @@ namespace LOIC
 		private System.Windows.Forms.CheckBox cbRandomSourceIpAndPort;
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.ComboBox cbAdapter;
+		private System.Windows.Forms.Label label32;
+		private System.Windows.Forms.Label txtStatusMessage;
 	}
 }
