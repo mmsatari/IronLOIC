@@ -2,7 +2,19 @@
 
 namespace LOIC {
 	
-	
+	public struct Flags
+	{
+		public bool SYN;
+		public bool ACK;
+		public bool FIN;
+		public bool URG;
+		public bool RST;
+		public bool PSH;
+		public bool CWR;
+		public bool ENC;
+		public bool NS;
+		public bool NONE;
+	}
 	// This class allows you to handle specific events on the settings class:
 	//  The SettingChanging event is raised before a setting's value is changed.
 	//  The PropertyChanged event is raised after a setting's value is changed.
@@ -20,16 +32,7 @@ namespace LOIC {
 		}
 
 		// flags
-		internal static bool SYN { get; set; }
-		internal static bool ACK { get; set; }
-		internal static bool FIN { get; set; }
-		internal static bool URG { get; set; }
-		internal static bool RST { get; set; }
-		internal static bool PSH { get; set; }
-		internal static bool CWR { get; set; }
-		internal static bool ENC { get; set; }
-		internal static bool NS { get; set; }
-		internal static bool NONE { get; set; }
+		public static Flags Flags = new Flags();
 		
 		// target 
 		public static string TargetHost, TargetIp, Payload, RelativePath;

