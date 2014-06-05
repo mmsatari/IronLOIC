@@ -41,10 +41,10 @@ namespace LOIC
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.txtTarget = new System.Windows.Forms.TextBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.cboRandomSourceIpAndPort = new System.Windows.Forms.CheckBox();
-			this.tbSourcePort = new System.Windows.Forms.TextBox();
+			this.cbRandomSourceIpAndPort = new System.Windows.Forms.CheckBox();
+			this.txtSourcePort = new System.Windows.Forms.TextBox();
 			this.label30 = new System.Windows.Forms.Label();
-			this.tbSourceIP = new System.Windows.Forms.TextBox();
+			this.txtSourceIP = new System.Windows.Forms.TextBox();
 			this.label29 = new System.Windows.Forms.Label();
 			this.chkAllowGzip = new System.Windows.Forms.CheckBox();
 			this.label18 = new System.Windows.Forms.Label();
@@ -93,16 +93,16 @@ namespace LOIC
 			this.label27 = new System.Windows.Forms.Label();
 			this.pBanner = new System.Windows.Forms.PictureBox();
 			this.gbFlags = new System.Windows.Forms.GroupBox();
-			this.tbDestMac = new System.Windows.Forms.TextBox();
-			this.tbSourceMac = new System.Windows.Forms.TextBox();
+			this.txtDestMac = new System.Windows.Forms.TextBox();
+			this.txtSourceMac = new System.Windows.Forms.TextBox();
 			this.label21 = new System.Windows.Forms.Label();
 			this.label28 = new System.Windows.Forms.Label();
-			this.tbIdNo = new System.Windows.Forms.TextBox();
-			this.tbAckNo = new System.Windows.Forms.TextBox();
+			this.txtIdNo = new System.Windows.Forms.TextBox();
+			this.txtAckNo = new System.Windows.Forms.TextBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
-			this.tbTimeToLive = new System.Windows.Forms.TextBox();
-			this.tbSeqNo = new System.Windows.Forms.TextBox();
+			this.txtTimeToLive = new System.Windows.Forms.TextBox();
+			this.txtSeqNo = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.cbNone = new System.Windows.Forms.CheckBox();
@@ -175,6 +175,7 @@ namespace LOIC
 			this.txtTargetIP.Name = "txtTargetIP";
 			this.txtTargetIP.Size = new System.Drawing.Size(250, 20);
 			this.txtTargetIP.TabIndex = 3;
+			this.txtTargetIP.Text = "192.168.0.100";
 			this.TTip.SetToolTip(this.txtTargetIP, "If you know your target\'s IP, enter the IP here and click \"Lock on\"");
 			// 
 			// label1
@@ -219,7 +220,7 @@ namespace LOIC
 			this.txtPort.Name = "txtPort";
 			this.txtPort.Size = new System.Drawing.Size(54, 20);
 			this.txtPort.TabIndex = 4;
-			this.txtPort.Text = "80";
+			this.txtPort.Text = "139";
 			this.txtPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.TTip.SetToolTip(this.txtPort, "What port to attack (regular websites use 80)");
 			// 
@@ -261,10 +262,10 @@ namespace LOIC
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.cboRandomSourceIpAndPort);
-			this.groupBox3.Controls.Add(this.tbSourcePort);
+			this.groupBox3.Controls.Add(this.cbRandomSourceIpAndPort);
+			this.groupBox3.Controls.Add(this.txtSourcePort);
 			this.groupBox3.Controls.Add(this.label30);
-			this.groupBox3.Controls.Add(this.tbSourceIP);
+			this.groupBox3.Controls.Add(this.txtSourceIP);
 			this.groupBox3.Controls.Add(this.label29);
 			this.groupBox3.Controls.Add(this.chkAllowGzip);
 			this.groupBox3.Controls.Add(this.label18);
@@ -289,25 +290,26 @@ namespace LOIC
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "2. Attack options";
 			// 
-			// cboRandomSourceIpAndPort
+			// cbRandomSourceIpAndPort
 			// 
-			this.cboRandomSourceIpAndPort.Checked = true;
-			this.cboRandomSourceIpAndPort.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cboRandomSourceIpAndPort.Location = new System.Drawing.Point(253, 42);
-			this.cboRandomSourceIpAndPort.Name = "cboRandomSourceIpAndPort";
-			this.cboRandomSourceIpAndPort.Size = new System.Drawing.Size(72, 18);
-			this.cboRandomSourceIpAndPort.TabIndex = 36;
-			this.cboRandomSourceIpAndPort.Text = "Random";
-			this.TTip.SetToolTip(this.cboRandomSourceIpAndPort, "Enable Gzip support for HTTP method");
+			this.cbRandomSourceIpAndPort.Checked = true;
+			this.cbRandomSourceIpAndPort.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbRandomSourceIpAndPort.Location = new System.Drawing.Point(253, 42);
+			this.cbRandomSourceIpAndPort.Name = "cbRandomSourceIpAndPort";
+			this.cbRandomSourceIpAndPort.Size = new System.Drawing.Size(72, 18);
+			this.cbRandomSourceIpAndPort.TabIndex = 36;
+			this.cbRandomSourceIpAndPort.Text = "Random";
+			this.TTip.SetToolTip(this.cbRandomSourceIpAndPort, "Enable Gzip support for HTTP method");
 			// 
-			// tbSourcePort
+			// txtSourcePort
 			// 
-			this.tbSourcePort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSourcePort.ForeColor = System.Drawing.Color.Azure;
-			this.tbSourcePort.Location = new System.Drawing.Point(189, 42);
-			this.tbSourcePort.Name = "tbSourcePort";
-			this.tbSourcePort.Size = new System.Drawing.Size(52, 20);
-			this.tbSourcePort.TabIndex = 35;
+			this.txtSourcePort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSourcePort.ForeColor = System.Drawing.Color.Azure;
+			this.txtSourcePort.Location = new System.Drawing.Point(189, 42);
+			this.txtSourcePort.Name = "txtSourcePort";
+			this.txtSourcePort.Size = new System.Drawing.Size(52, 20);
+			this.txtSourcePort.TabIndex = 35;
+			this.txtSourcePort.Text = "1337";
 			// 
 			// label30
 			// 
@@ -318,15 +320,16 @@ namespace LOIC
 			this.label30.TabIndex = 34;
 			this.label30.Text = "SourcePort";
 			// 
-			// tbSourceIP
+			// txtSourceIP
 			// 
-			this.tbSourceIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSourceIP.ForeColor = System.Drawing.Color.Azure;
-			this.tbSourceIP.Location = new System.Drawing.Point(9, 42);
-			this.tbSourceIP.Multiline = true;
-			this.tbSourceIP.Name = "tbSourceIP";
-			this.tbSourceIP.Size = new System.Drawing.Size(165, 20);
-			this.tbSourceIP.TabIndex = 32;
+			this.txtSourceIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSourceIP.ForeColor = System.Drawing.Color.Azure;
+			this.txtSourceIP.Location = new System.Drawing.Point(9, 42);
+			this.txtSourceIP.Multiline = true;
+			this.txtSourceIP.Name = "txtSourceIP";
+			this.txtSourceIP.Size = new System.Drawing.Size(165, 20);
+			this.txtSourceIP.TabIndex = 32;
+			this.txtSourceIP.Text = "192.168.0.111";
 			// 
 			// label29
 			// 
@@ -817,16 +820,16 @@ namespace LOIC
 			// 
 			// gbFlags
 			// 
-			this.gbFlags.Controls.Add(this.tbDestMac);
-			this.gbFlags.Controls.Add(this.tbSourceMac);
+			this.gbFlags.Controls.Add(this.txtDestMac);
+			this.gbFlags.Controls.Add(this.txtSourceMac);
 			this.gbFlags.Controls.Add(this.label21);
 			this.gbFlags.Controls.Add(this.label28);
-			this.gbFlags.Controls.Add(this.tbIdNo);
-			this.gbFlags.Controls.Add(this.tbAckNo);
+			this.gbFlags.Controls.Add(this.txtIdNo);
+			this.gbFlags.Controls.Add(this.txtAckNo);
 			this.gbFlags.Controls.Add(this.label10);
 			this.gbFlags.Controls.Add(this.label11);
-			this.gbFlags.Controls.Add(this.tbTimeToLive);
-			this.gbFlags.Controls.Add(this.tbSeqNo);
+			this.gbFlags.Controls.Add(this.txtTimeToLive);
+			this.gbFlags.Controls.Add(this.txtSeqNo);
 			this.gbFlags.Controls.Add(this.label3);
 			this.gbFlags.Controls.Add(this.label5);
 			this.gbFlags.Controls.Add(this.cbNone);
@@ -846,25 +849,25 @@ namespace LOIC
 			this.gbFlags.TabStop = false;
 			this.gbFlags.Text = "3.Flags";
 			// 
-			// tbDestMac
+			// txtDestMac
 			// 
-			this.tbDestMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbDestMac.ForeColor = System.Drawing.Color.Azure;
-			this.tbDestMac.Location = new System.Drawing.Point(580, 75);
-			this.tbDestMac.Name = "tbDestMac";
-			this.tbDestMac.Size = new System.Drawing.Size(161, 20);
-			this.tbDestMac.TabIndex = 20;
-			this.tbDestMac.Text = "FF:FF:FF:FF:FF:FF";
+			this.txtDestMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtDestMac.ForeColor = System.Drawing.Color.Azure;
+			this.txtDestMac.Location = new System.Drawing.Point(580, 75);
+			this.txtDestMac.Name = "txtDestMac";
+			this.txtDestMac.Size = new System.Drawing.Size(161, 20);
+			this.txtDestMac.TabIndex = 20;
+			this.txtDestMac.Text = "FF:FF:FF:FF:FF:FF";
 			// 
-			// tbSourceMac
+			// txtSourceMac
 			// 
-			this.tbSourceMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSourceMac.ForeColor = System.Drawing.Color.Azure;
-			this.tbSourceMac.Location = new System.Drawing.Point(580, 32);
-			this.tbSourceMac.Name = "tbSourceMac";
-			this.tbSourceMac.Size = new System.Drawing.Size(158, 20);
-			this.tbSourceMac.TabIndex = 21;
-			this.tbSourceMac.Text = "B8:AC:6F:3C:9C:93";
+			this.txtSourceMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSourceMac.ForeColor = System.Drawing.Color.Azure;
+			this.txtSourceMac.Location = new System.Drawing.Point(580, 32);
+			this.txtSourceMac.Name = "txtSourceMac";
+			this.txtSourceMac.Size = new System.Drawing.Size(158, 20);
+			this.txtSourceMac.TabIndex = 21;
+			this.txtSourceMac.Text = "B8:AC:6F:3C:9C:93";
 			// 
 			// label21
 			// 
@@ -884,26 +887,26 @@ namespace LOIC
 			this.label28.TabIndex = 19;
 			this.label28.Text = "Source HW MAC Address";
 			// 
-			// tbIdNo
+			// txtIdNo
 			// 
-			this.tbIdNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbIdNo.ForeColor = System.Drawing.Color.Azure;
-			this.tbIdNo.Location = new System.Drawing.Point(271, 68);
-			this.tbIdNo.Name = "tbIdNo";
-			this.tbIdNo.Size = new System.Drawing.Size(74, 20);
-			this.tbIdNo.TabIndex = 16;
-			this.tbIdNo.Text = "100";
+			this.txtIdNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtIdNo.ForeColor = System.Drawing.Color.Azure;
+			this.txtIdNo.Location = new System.Drawing.Point(271, 68);
+			this.txtIdNo.Name = "txtIdNo";
+			this.txtIdNo.Size = new System.Drawing.Size(74, 20);
+			this.txtIdNo.TabIndex = 16;
+			this.txtIdNo.Text = "100";
 			// 
-			// tbAckNo
+			// txtAckNo
 			// 
-			this.tbAckNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbAckNo.Enabled = false;
-			this.tbAckNo.ForeColor = System.Drawing.Color.Azure;
-			this.tbAckNo.Location = new System.Drawing.Point(189, 68);
-			this.tbAckNo.Name = "tbAckNo";
-			this.tbAckNo.Size = new System.Drawing.Size(74, 20);
-			this.tbAckNo.TabIndex = 17;
-			this.tbAckNo.Text = "0";
+			this.txtAckNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtAckNo.Enabled = false;
+			this.txtAckNo.ForeColor = System.Drawing.Color.Azure;
+			this.txtAckNo.Location = new System.Drawing.Point(189, 68);
+			this.txtAckNo.Name = "txtAckNo";
+			this.txtAckNo.Size = new System.Drawing.Size(74, 20);
+			this.txtAckNo.TabIndex = 17;
+			this.txtAckNo.Text = "0";
 			// 
 			// label10
 			// 
@@ -923,25 +926,25 @@ namespace LOIC
 			this.label11.TabIndex = 15;
 			this.label11.Text = "Ack Number";
 			// 
-			// tbTimeToLive
+			// txtTimeToLive
 			// 
-			this.tbTimeToLive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbTimeToLive.ForeColor = System.Drawing.Color.Azure;
-			this.tbTimeToLive.Location = new System.Drawing.Point(100, 68);
-			this.tbTimeToLive.Name = "tbTimeToLive";
-			this.tbTimeToLive.Size = new System.Drawing.Size(80, 20);
-			this.tbTimeToLive.TabIndex = 12;
-			this.tbTimeToLive.Text = "100";
+			this.txtTimeToLive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtTimeToLive.ForeColor = System.Drawing.Color.Azure;
+			this.txtTimeToLive.Location = new System.Drawing.Point(100, 68);
+			this.txtTimeToLive.Name = "txtTimeToLive";
+			this.txtTimeToLive.Size = new System.Drawing.Size(80, 20);
+			this.txtTimeToLive.TabIndex = 12;
+			this.txtTimeToLive.Text = "100";
 			// 
-			// tbSeqNo
+			// txtSeqNo
 			// 
-			this.tbSeqNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-			this.tbSeqNo.ForeColor = System.Drawing.Color.Azure;
-			this.tbSeqNo.Location = new System.Drawing.Point(20, 68);
-			this.tbSeqNo.Name = "tbSeqNo";
-			this.tbSeqNo.Size = new System.Drawing.Size(74, 20);
-			this.tbSeqNo.TabIndex = 13;
-			this.tbSeqNo.Text = "124";
+			this.txtSeqNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSeqNo.ForeColor = System.Drawing.Color.Azure;
+			this.txtSeqNo.Location = new System.Drawing.Point(20, 68);
+			this.txtSeqNo.Name = "txtSeqNo";
+			this.txtSeqNo.Size = new System.Drawing.Size(74, 20);
+			this.txtSeqNo.TabIndex = 13;
+			this.txtSeqNo.Text = "124";
 			// 
 			// label3
 			// 
@@ -1059,10 +1062,13 @@ namespace LOIC
 			this.cbAck.TabIndex = 0;
 			this.cbAck.Text = "ACK";
 			this.cbAck.UseVisualStyleBackColor = true;
+			this.cbAck.CheckedChanged += new System.EventHandler(this.cbAck_CheckedChanged);
 			// 
 			// cbSyn
 			// 
 			this.cbSyn.AutoSize = true;
+			this.cbSyn.Checked = true;
+			this.cbSyn.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbSyn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cbSyn.Location = new System.Drawing.Point(16, 26);
 			this.cbSyn.Name = "cbSyn";
@@ -1209,23 +1215,23 @@ namespace LOIC
 		private System.Windows.Forms.CheckBox cbFin;
 		private System.Windows.Forms.CheckBox cbAck;
 		private System.Windows.Forms.CheckBox cbSyn;
-		private System.Windows.Forms.TextBox tbTimeToLive;
-		private System.Windows.Forms.TextBox tbSeqNo;
+		private System.Windows.Forms.TextBox txtTimeToLive;
+		private System.Windows.Forms.TextBox txtSeqNo;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.TextBox tbIdNo;
-		private System.Windows.Forms.TextBox tbAckNo;
+		private System.Windows.Forms.TextBox txtIdNo;
+		private System.Windows.Forms.TextBox txtAckNo;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.TextBox tbDestMac;
-		private System.Windows.Forms.TextBox tbSourceMac;
+		private System.Windows.Forms.TextBox txtDestMac;
+		private System.Windows.Forms.TextBox txtSourceMac;
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.Label label28;
-		private System.Windows.Forms.TextBox tbSourcePort;
+		private System.Windows.Forms.TextBox txtSourcePort;
 		private System.Windows.Forms.Label label30;
-		private System.Windows.Forms.TextBox tbSourceIP;
+		private System.Windows.Forms.TextBox txtSourceIP;
 		private System.Windows.Forms.Label label29;
-		private System.Windows.Forms.CheckBox cboRandomSourceIpAndPort;
+		private System.Windows.Forms.CheckBox cbRandomSourceIpAndPort;
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.ComboBox cbAdapter;
 	}

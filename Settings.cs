@@ -31,17 +31,16 @@ namespace LOIC {
 			//
 		}
 
-		// flags
-		public static Flags Flags = new Flags();
-		
 		// target 
-		public static string TargetHost, TargetIp, Payload, RelativePath;
-		public static int TargetPort, NumThreads, Delay, Timeout;
+		public static string TargetHost, TargetIP, RelativePath, Payload,SourceMac,DestinationMac;
+		public static int SourcePort,TargetPort, NumThreads, Delay, Timeout;
 		public static bool IntShowStats;
-		
 		public static PacketDevice SelectedDevice;
 		public static AttackTypes AttackType;
-
+		public static string SourceIP;
+		public static ushort ID,WindowNumber;
+		public static byte TTL;
+		public static uint SequenceNumber, AcknoledgeNumber;
 	}
 
 	public enum AttackTypes

