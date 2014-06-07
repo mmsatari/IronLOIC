@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace LOIC
 {
@@ -64,5 +67,45 @@ namespace LOIC
 			}
 			return localIP;
 		}
+
+		public static List<string> GetNewLinks(string url)
+		{
+			string pattern1 = @"(href=\""([^""]*)\"")";
+			string pattern2 = @"(?<=<a\\s*?href=(?:'|\""))[^'\""]*?(?=(?:'|\""))";
+
+			Regex regexLink = new Regex(pattern2);
+			string content = GetWebText(url);
+			ISet<string> newLinks = new HashSet<string>();
+			foreach (var match in regexLink.Matches(content))
+			{
+				if (!newLinks.Contains(match.ToString()))
+					newLinks.Add(match.ToString());
+			}
+
+			return newLinks.ToList();
+		}
+
+		private static string GetWebText(string url)
+		{
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+			request.UserAgent = "A .NET Web Crawler";
+			WebResponse response = request.GetResponse();
+			Stream stream = response.GetResponseStream();
+			StreamReader reader = new StreamReader(stream);
+			string htmlText = reader.ReadToEnd();
+			return htmlText;
+		}
+
+		public static List<string> Crawl(string root, int depth,int maxWidth)
+		{
+			IList<string> links = GetNewLinks(root);
+			List<string> newLinks =new List<string>();
+
+			for (int i = 0; i < links.Count && i< maxWidth; i++)
+			{
+				newLinks.AddRange( Crawl(links[i], depth - 1, maxWidth));
+			}
+			return newLinks;
+		} 
 	}
 }

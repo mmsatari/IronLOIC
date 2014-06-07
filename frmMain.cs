@@ -491,7 +491,10 @@ namespace LOIC
 			}
 			for (int i = 0; i != allDevices.Count(); ++i)
 			{
-				cbAdapter.Items.Add(allDevices[i].Description);
+				string ip = "";
+				if (allDevices[i].Addresses.Count >= 2)
+					ip = allDevices[i].Addresses[1].Address.ToString();
+				cbAdapter.Items.Add(ip+ " : " + allDevices[i].Description);
 			}
 		}
 
@@ -891,5 +894,16 @@ namespace LOIC
 			Settings.SelectedDevice = allDevices[cbAdapter.SelectedIndex];
 
 		}
+
+		//private void button1_Click(object sender, EventArgs e)
+		//{
+		//	List<string> links = new List<string>(Utils.Crawl(@"http://educ.sajad.ac.ir/strcss/",3,5));
+		//	string txt = "";
+		//	foreach (var link in links)
+		//	{
+		//		txt += link + "\r\n";
+		//	}
+		//	MessageBox.Show(txt);
+		//}
 	}
 }

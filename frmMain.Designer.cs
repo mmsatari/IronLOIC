@@ -64,6 +64,8 @@ namespace LOIC
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.btnAttack = new System.Windows.Forms.Button();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.label32 = new System.Windows.Forms.Label();
+			this.txtStatusMessage = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
 			this.lbFailed = new System.Windows.Forms.Label();
 			this.lbRequested = new System.Windows.Forms.Label();
@@ -117,8 +119,6 @@ namespace LOIC
 			this.cbSyn = new System.Windows.Forms.CheckBox();
 			this.label31 = new System.Windows.Forms.Label();
 			this.cbAdapter = new System.Windows.Forms.ComboBox();
-			this.txtStatusMessage = new System.Windows.Forms.Label();
-			this.label32 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -566,6 +566,22 @@ namespace LOIC
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Attack status";
 			// 
+			// label32
+			// 
+			this.label32.Location = new System.Drawing.Point(5, 64);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(59, 24);
+			this.label32.TabIndex = 27;
+			this.label32.Text = "Status:";
+			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// txtStatusMessage
+			// 
+			this.txtStatusMessage.Location = new System.Drawing.Point(70, 67);
+			this.txtStatusMessage.Name = "txtStatusMessage";
+			this.txtStatusMessage.Size = new System.Drawing.Size(679, 21);
+			this.txtStatusMessage.TabIndex = 26;
+			// 
 			// label19
 			// 
 			this.label19.BackColor = System.Drawing.Color.Azure;
@@ -709,9 +725,9 @@ namespace LOIC
 			this.label24.AutoSize = true;
 			this.label24.Location = new System.Drawing.Point(22, 452);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(165, 14);
+			this.label24.Size = new System.Drawing.Size(146, 14);
 			this.label24.TabIndex = 14;
-			this.label24.Text = "github.com/NewEraCracker/LOIC";
+			this.label24.Text = "github.com/shabgrd/IronLOIC";
 			this.TTip.SetToolTip(this.label24, "Go to official page");
 			this.label24.Click += new System.EventHandler(this.label24_Click);
 			// 
@@ -1098,22 +1114,6 @@ namespace LOIC
 			this.cbAdapter.Size = new System.Drawing.Size(654, 22);
 			this.cbAdapter.TabIndex = 25;
 			this.cbAdapter.SelectedIndexChanged += new System.EventHandler(this.cbAdapter_SelectedIndexChanged);
-			// 
-			// txtStatusMessage
-			// 
-			this.txtStatusMessage.Location = new System.Drawing.Point(70, 67);
-			this.txtStatusMessage.Name = "txtStatusMessage";
-			this.txtStatusMessage.Size = new System.Drawing.Size(679, 21);
-			this.txtStatusMessage.TabIndex = 26;
-			// 
-			// label32
-			// 
-			this.label32.Location = new System.Drawing.Point(5, 64);
-			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(59, 24);
-			this.label32.TabIndex = 27;
-			this.label32.Text = "Status:";
-			this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// frmMain
 			// 
