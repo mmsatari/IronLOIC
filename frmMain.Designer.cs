@@ -305,6 +305,7 @@ namespace LOIC
 			// txtSourcePort
 			// 
 			this.txtSourcePort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSourcePort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtSourcePort.ForeColor = System.Drawing.Color.Azure;
 			this.txtSourcePort.Location = new System.Drawing.Point(189, 42);
 			this.txtSourcePort.Name = "txtSourcePort";
@@ -324,6 +325,7 @@ namespace LOIC
 			// txtSourceIP
 			// 
 			this.txtSourceIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSourceIP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtSourceIP.ForeColor = System.Drawing.Color.Azure;
 			this.txtSourceIP.Location = new System.Drawing.Point(9, 42);
 			this.txtSourceIP.Multiline = true;
@@ -871,6 +873,7 @@ namespace LOIC
 			// txtDestMac
 			// 
 			this.txtDestMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtDestMac.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtDestMac.ForeColor = System.Drawing.Color.Azure;
 			this.txtDestMac.Location = new System.Drawing.Point(580, 75);
 			this.txtDestMac.Name = "txtDestMac";
@@ -881,6 +884,7 @@ namespace LOIC
 			// txtSourceMac
 			// 
 			this.txtSourceMac.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSourceMac.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtSourceMac.ForeColor = System.Drawing.Color.Azure;
 			this.txtSourceMac.Location = new System.Drawing.Point(580, 32);
 			this.txtSourceMac.Name = "txtSourceMac";
@@ -909,6 +913,7 @@ namespace LOIC
 			// txtIdNo
 			// 
 			this.txtIdNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtIdNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtIdNo.ForeColor = System.Drawing.Color.Azure;
 			this.txtIdNo.Location = new System.Drawing.Point(271, 68);
 			this.txtIdNo.Name = "txtIdNo";
@@ -919,6 +924,7 @@ namespace LOIC
 			// txtAckNo
 			// 
 			this.txtAckNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtAckNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtAckNo.Enabled = false;
 			this.txtAckNo.ForeColor = System.Drawing.Color.Azure;
 			this.txtAckNo.Location = new System.Drawing.Point(189, 68);
@@ -948,6 +954,7 @@ namespace LOIC
 			// txtTimeToLive
 			// 
 			this.txtTimeToLive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtTimeToLive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtTimeToLive.ForeColor = System.Drawing.Color.Azure;
 			this.txtTimeToLive.Location = new System.Drawing.Point(100, 68);
 			this.txtTimeToLive.Name = "txtTimeToLive";
@@ -958,6 +965,7 @@ namespace LOIC
 			// txtSeqNo
 			// 
 			this.txtSeqNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.txtSeqNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.txtSeqNo.ForeColor = System.Drawing.Color.Azure;
 			this.txtSeqNo.Location = new System.Drawing.Point(20, 68);
 			this.txtSeqNo.Name = "txtSeqNo";
@@ -1108,6 +1116,7 @@ namespace LOIC
 			// cbAdapter
 			// 
 			this.cbAdapter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+			this.cbAdapter.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.cbAdapter.FormattingEnabled = true;
 			this.cbAdapter.Location = new System.Drawing.Point(315, 38);
 			this.cbAdapter.Name = "cbAdapter";
@@ -1145,7 +1154,7 @@ namespace LOIC
 			this.MaximizeBox = false;
 			this.Name = "frmMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "frmMain";
+			this.Text = "IronLOIC";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_Closing);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

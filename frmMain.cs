@@ -67,8 +67,7 @@ namespace LOIC
 				}
 				if (disableHive.Checked && enabled)
 				{
-					new frmWtf().Show();
-					MessageBox.Show("Did you filled IRC options correctly?", "What the shit.");
+					Log("Did you filled IRC options correctly?");
 					return;
 				}
 
@@ -486,7 +485,8 @@ namespace LOIC
 			IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
 			if (allDevices.Count == 0)
 			{
-				MessageBox.Show("Winpcap is missing or not installed. Please fix this!");
+
+				Log("Winpcap is missing or not installed. Please fix this!");
 				btnAttack.Enabled = false;
 			}
 			for (int i = 0; i != allDevices.Count(); ++i)
@@ -496,6 +496,12 @@ namespace LOIC
 					ip = allDevices[i].Addresses[1].Address.ToString();
 				cbAdapter.Items.Add(ip+ " : " + allDevices[i].Description);
 			}
+		}
+
+		private void Log(string msg)
+		{
+			if (!_silent)
+				MessageBox.Show(msg);
 		}
 
 		private static TCPFlooder[] tcpFlooder;
@@ -510,12 +516,12 @@ namespace LOIC
 			{
 				try
 				{
-					UpdateSettings();
+					CheckSettings();
 				}
 				catch (Exception ex)
 				{
-					if (_silent) return;
-					new frmWtf().Show(); MessageBox.Show(ex.Message, "What the shit."); return;
+					Log(ex.Message); 
+					return;
 				}
 
 				btnAttack.Text = "Stop flooding";
@@ -578,7 +584,7 @@ namespace LOIC
 			}
 		}
 
-		private void UpdateSettings()
+		private void CheckSettings()
 		{
 
 			// attack type
@@ -660,7 +666,7 @@ namespace LOIC
 			}
 			catch
 			{
-				throw new Exception("Check Flag Settings!");
+				throw new Exception("Check Those Flag Settings Mate!");
 			}
 
 			if (String.IsNullOrEmpty(Settings.TargetHost)) Settings.TargetHost = Settings.TargetIP;
@@ -670,7 +676,7 @@ namespace LOIC
 			Settings.Payload = txtData.Text.Replace("\\r", "\r").Replace("\\n", "\n");
 			if (String.IsNullOrEmpty(Settings.Payload) &&
 				(Settings.AttackType == AttackTypes.TcpFlood || Settings.AttackType == AttackTypes.UdpFlood))
-				throw new Exception("Gonna spam with no contents? You're a wise fellow, aren't ya? o.O");
+				throw new Exception("Gonna spam with no contents? You're a wise fellow, aren't ya? o_O");
 
 			Settings.RelativePath = txtSubsite.Text;
 			if (!Settings.RelativePath.StartsWith("/") && (Settings.AttackType == AttackTypes.HttpFlood))
@@ -701,9 +707,7 @@ namespace LOIC
 		{
 			if (txtTargetIP.Text.Length == 0)
 			{
-				if (_silent) return;
-				new frmWtf().Show();
-				MessageBox.Show("I think you forgot the IP.", "What the shit.");
+				Log("I think you forgot the IP.");
 				return;
 			}
 			Settings.TargetHost = txtTarget.Text = txtTargetIP.Text;
@@ -715,18 +719,14 @@ namespace LOIC
 			Settings.TargetHost = txtTargetURL.Text.ToLower();
 			if (String.IsNullOrEmpty(Settings.TargetHost))
 			{
-				if (_silent) return;
-				new frmWtf().Show();
-				MessageBox.Show("A URL is fine too...", "What the shit.");
+				Log("A URL is fine too...");
 				return;
 			}
 			if (!Settings.TargetHost.StartsWith("http://") && !Settings.TargetHost.StartsWith("https://")) Settings.TargetHost = String.Concat("http://", Settings.TargetHost);
 			try { txtTarget.Text = Dns.GetHostEntry(new Uri(Settings.TargetHost).Host).AddressList[0].ToString(); }
 			catch
 			{
-				if (_silent) return;
-				new frmWtf().Show();
-				MessageBox.Show("The URL you entered does not resolve to an IP!", "What the shit.");
+				Log("The URL you entered does not resolve to an IP!");
 				return;
 			}
 		}
@@ -867,7 +867,7 @@ namespace LOIC
 
 		private void label24_Click(object sender, EventArgs e)
 		{
-			System.Diagnostics.Process.Start("http://github.com/NewEraCracker/LOIC");
+			System.Diagnostics.Process.Start("http://github.com/shabgrd/IronLOIC");
 		}
 
 		private delegate void CheckParamsDelegate(List<string> pars);
@@ -895,15 +895,5 @@ namespace LOIC
 
 		}
 
-		//private void button1_Click(object sender, EventArgs e)
-		//{
-		//	List<string> links = new List<string>(Utils.Crawl(@"http://educ.sajad.ac.ir/strcss/",3,5));
-		//	string txt = "";
-		//	foreach (var link in links)
-		//	{
-		//		txt += link + "\r\n";
-		//	}
-		//	MessageBox.Show(txt);
-		//}
 	}
 }
